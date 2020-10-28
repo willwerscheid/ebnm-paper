@@ -6,4 +6,4 @@ output:
     toc: false
 ---
 
-Welcome to my research website.
+[Optimization methods for point-normal priors.](optmethods_pn.html)
