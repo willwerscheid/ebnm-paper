@@ -1,7 +1,7 @@
 ---
-title: "Testing point-normal optimization methods"
+title: "Testing point-normal optimization methods (null case)"
 author: "Jason Willwerscheid"
-date: "10/28/2020"
+date: "01/11/2021"
 output:
   workflowr::wflow_html:
     code_folding: hide
