@@ -443,10 +443,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreeb3f1a223c7580a80fd9422ede51a5147bebbde25targetblankb3f1a22a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/b3f1a223c7580a80fd9422ede51a5147bebbde25" target="_blank">b3f1a22</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreecb54b1eb7d124681f0eb27f15194372b6b50ae5dtargetblankcb54b1ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/cb54b1eb7d124681f0eb27f15194372b6b50ae5d" target="_blank">cb54b1e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreeb3f1a223c7580a80fd9422ede51a5147bebbde25targetblankb3f1a22a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreecb54b1eb7d124681f0eb27f15194372b6b50ae5dtargetblankcb54b1ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -499,6 +499,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/cb54b1eb7d124681f0eb27f15194372b6b50ae5d/analysis/optmethods_pn2.Rmd" target="_blank">cb54b1e</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-11
+</td>
+<td>
+wflow_publish(“analysis/optmethods_pn2.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/willwerscheid/ebnm-paper/f5c7e12fef6fed12e62c0983387530ca623b9bb6/docs/optmethods_pn2.html" target="_blank">f5c7e12</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -558,12 +592,12 @@ wflow_publish(“analysis/optmethods_pn2.Rmd”)
 </div>
 </div>
 <p>I <a href="optmethods_pn.html">again</a> compare optimization methods for solving the EBNM problem with point-normal priors but now the “true” prior is the boundary solution <span class="math display">\[ \theta_i \sim \delta_0 \]</span></p>
+<p>This case is trickier because now there are two ways to arrive at the solution: either take <span class="math inline">\(\pi_0 \to 0\)</span> or take <span class="math inline">\(\sigma^2 \to 0\)</span>. I think this is the reason for the large-ish difference in log likelihoods (<span class="math inline">\(\approx 0.07\)</span>) for <span class="math inline">\(n = 100000\)</span> below. As I understand it, there is a solution that is slightly better than the null at <span class="math inline">\(\pi_0 \approx 0.94\)</span> and <span class="math inline">\(\sigma^2 \approx 0.0003\)</span>, which L-BFGS-B finds because it takes the path <span class="math inline">\(\sigma^2 \to 0\)</span>. In contrast, <code>trust</code> and <code>nlm</code> take the path <span class="math inline">\(\pi_0 \to 0\)</span> and in doing so fail to find this optimum.</p>
 <pre class="r"><code>library(microbenchmark)
 library(ebnm)
 library(ggplot2)
 
 test_n &lt;- function(n, mb_times = 100L, seed = 666) {
-  set.seed(seed)
   set.seed(seed)
   # true g is null
   theta &lt;- 0
@@ -629,6 +663,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/f5c7e12fef6fed12e62c0983387530ca623b9bb6/docs/figure/optmethods_pn2.Rmd/n1000t-1.png" target="_blank">f5c7e12</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/8c52f957e212dab3a981ed7898a32e56409f62a5/docs/figure/optmethods_pn2.Rmd/n1000t-1.png" target="_blank">8c52f95</a>
 </td>
 <td>
@@ -678,6 +723,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/f5c7e12fef6fed12e62c0983387530ca623b9bb6/docs/figure/optmethods_pn2.Rmd/n10000t-1.png" target="_blank">f5c7e12</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/8c52f957e212dab3a981ed7898a32e56409f62a5/docs/figure/optmethods_pn2.Rmd/n10000t-1.png" target="_blank">8c52f95</a>
 </td>
 <td>
@@ -725,6 +781,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/f5c7e12fef6fed12e62c0983387530ca623b9bb6/docs/figure/optmethods_pn2.Rmd/n100000t-1.png" target="_blank">f5c7e12</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/8c52f957e212dab3a981ed7898a32e56409f62a5/docs/figure/optmethods_pn2.Rmd/n100000t-1.png" target="_blank">8c52f95</a>
