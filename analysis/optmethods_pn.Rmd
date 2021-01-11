@@ -30,8 +30,8 @@ test_n <- function(n, mb_times = 100L, seed = 666) {
   # true g is 0.8 delta_0 + 0.2 N(0, 2^2)
   theta <- rnorm(n, sd = 2)
   theta[rbinom(n, size = 1, prob = 0.8) == 1] <- 0
-  s <- sqrt(rexp(2 * n))
-  x <- theta + rnorm(2 * n, sd = s)
+  s <- sqrt(rexp(n))
+  x <- theta + rnorm(n, sd = s)
 
   test_res <- microbenchmark(
     tres <- ebnm_point_normal(x, s, optmethod = "trust",
