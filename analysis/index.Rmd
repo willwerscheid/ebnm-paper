@@ -7,4 +7,5 @@ output:
 ---
 
 [Optimization methods for point-normal priors.](optmethods_pn.html)
+
 [Optimization methods for point-normal priors (null case).](optmethods_pn2.html)
