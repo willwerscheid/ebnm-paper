@@ -17,13 +17,14 @@ knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 I [again](optmethods_pn.html) compare optimization methods for solving the EBNM problem with point-normal priors but now the "true" prior is the boundary solution
 $$ \theta_i \sim \delta_0 $$
 
+This case is trickier because now there are two ways to arrive at the solution: either take $\pi_0 \to 0$ or take $\sigma^2 \to 0$. I think this is the reason for the large-ish difference in log likelihoods ($\approx 0.07$) for $n = 100000$ below. As I understand it, there is a solution that is slightly better than the null at $\pi_0 \approx 0.94$ and $\sigma^2 \approx 0.0003$, which L-BFGS-B finds because it takes the path $\sigma^2 \to 0$. In contrast, `trust` and `nlm` take the path $\pi_0 \to 0$ and in doing so fail to find this optimum.
+
 ```{r code}
 library(microbenchmark)
 library(ebnm)
 library(ggplot2)
 
 test_n <- function(n, mb_times = 100L, seed = 666) {
-  set.seed(seed)
   set.seed(seed)
   # true g is null
   theta <- 0
