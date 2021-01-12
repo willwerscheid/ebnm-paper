@@ -9,6 +9,9 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    href: https://github.com/willwerscheid/ebnm-paper
 output:
   workflowr::wflow_html:
     toc: yes
