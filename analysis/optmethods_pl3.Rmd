@@ -1,5 +1,5 @@
 ---
-title: "Testing point-laplace optimization methods"
+title: "Testing point-laplace optimization methods (estimated mode)"
 author: "Jason Willwerscheid"
 date: "01/12/2021"
 output:
@@ -13,9 +13,9 @@ options(width = 100)
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 ```
 
-I compare the performance of different optimization methods for solving the EBNM problem with point-Laplace priors. The "true" prior I've used to generate the data is
-$$ \theta_i \sim 0.9 \delta_0 + 0.1 \text{Laplace}(0, 5) $$
-I set all standard errors equal to 1. This makes function evaluations cheaper, which benefits `nlm` and `optim` since (per the `trust` documentation) `trust` "makes the best possible use of each function, gradient, and Hessian evaluation." Thus, while the corresponding [study](optmethods_pn.html) for point-normal priors showed that `trust` was faster than `nlm` for large $n$, here I find that `nlm` is at least as fast.
+I [again](optmethods_pl.html) compare optimization methods for solving the EBNM problem with point-Laplace priors but now I estimate the mode as well as estimating $\pi_0$ and $\sigma^2$. The "true" prior I use is:
+$$ \theta_i \sim 0.7 \delta_\mu + 0.3\text{Laplace}(\mu, 3) $$
+I set $\mu = 1$ and I generate standard errors from an exponential distribution with mean 1 (recall that using different standard errors $s_i$ for each observation $x_i$ should benefit `trust`).
 
 ```{r code}
 library(microbenchmark)
@@ -24,10 +24,11 @@ library(ggplot2)
 
 test_n <- function(n, mb_times = 100L, seed = 666) {
   set.seed(seed)
-  # true g is 0.9 delta_0 + 0.1 Laplace(0, 5)
-  theta <- rexp(n, rate = 1 / 5) * sample(c(-1, 1), n, replace = TRUE)
-  theta[rbinom(n, size = 1, prob = 0.9) == 1] <- 0
-  s <- 1
+  # true g is 0.7 delta_mu + 0.3 Laplace(mu, 3)
+  mu <- 1
+  theta <- mu + rexp(n, rate = 1 / 3) * sample(c(-1, 1), n, replace = TRUE)
+  theta[rbinom(n, size = 1, prob = 0.7) == 1] <- mu
+  s <- sqrt(rexp(n))
   x <- theta + rnorm(n, sd = s)
 
   test_res <- microbenchmark(
@@ -76,7 +77,7 @@ autoplot(res1000$mb_res)
 Difference from maximum log likelihood among all methods:
 
 ```{r n10000}
-res10000 <- test_n(10000)
+res10000 <- test_n(10000, mb_times = 50L)
 res10000$llik_res - max(res10000$llik_res)
 ```
 
@@ -91,7 +92,7 @@ autoplot(res10000$mb_res)
 Difference from maximum log likelihood among all methods:
 
 ```{r n100000}
-res100000 <- test_n(100000, mb_times = 50L)
+res100000 <- test_n(100000, mb_times = 20L)
 res100000$llik_res - max(res100000$llik_res)
 ```
 
