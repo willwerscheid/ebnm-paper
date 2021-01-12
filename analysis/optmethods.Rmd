@@ -1,0 +1,164 @@
+---
+title: "A comparison of optimization methods for solving the parametric ebnm problem"
+author: "Jason Willwerscheid"
+date: "01/12/2021"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+```{r setup, include = FALSE}
+options(width = 100)
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
+```
+
+I only consider optimization methods `nlm`, `nohess_nlm`, and `trust` here, since previous tests suggested that these were the only consistently competitive methods. I do a more careful comparison here, with sixteen possible scenarios:
+
+* The prior family can be point-normal or point-laplace
+* The "true" prior can be an element of the prior family or null
+* Standard errors can be identical or different
+* The mode can be estimated or not
+
+I use `nlm` as the baseline and show timing differences for `nohess_nlm` and `trust`. For example, `tdiff = 2` means that `nlm` is faster by a factor of 2. Thus blue squares indicate cases where `nlm` is faster and red squares indicate cases where a competing method is faster. I use `microbenchmark` with differently simulated data for each iteration, and I give comparisons using both mean and median timings.
+
+```{r code}
+suppressMessages(library(tidyverse))
+library(microbenchmark)
+library(ebnm)
+
+one_test <- function(n, pn, null_case, homosked, est_mu, optmethod) {
+  pi0 <- rbeta(1, shape1 = 10, shape2 = 2)
+  scale <- rgamma(1, shape = 4, rate = 1)
+  
+  if (est_mu) {
+    mu <- runif(1, -20, 20)
+  } else {
+    mu <- 0
+  }
+  
+  if (null_case) {
+    theta <- mu
+  } else {
+    if (pn) {
+      theta <- mu + rnorm(n, sd = scale)
+    } else {
+      theta <- mu + rexp(n, 1 / scale) * sample(c(-1, 1), n, replace = TRUE)
+    }
+    theta[rbinom(n, size = 1, prob = pi0) == 1] <- mu
+  }
+  
+  if (homosked) {
+    s <- 1
+  } else {
+    s <- sqrt(rexp(n))
+  }
+  
+  x <- theta + rnorm(n, sd = s)
+
+  if (optmethod == "nlm") {
+    res <- ebnm_point_normal(x, s, optmethod = "nlm", 
+                             control = list(gradtol = sqrt(.Machine$double.eps)))
+  } else if (optmethod == "nohess_nlm") {
+    res <- ebnm_point_normal(x, s, optmethod = "nohess_nlm", 
+                             control = list(gradtol = sqrt(.Machine$double.eps)))
+  } else if (optmethod == "trust") {
+    res <- ebnm_point_normal(x, s, optmethod = "trust",
+                             control = list(fterm = sqrt(.Machine$double.eps)))
+  } else {
+    stop("Invalid optmethod.")
+  }
+
+  return(res)
+}
+
+one_mb <- function(n, pn, null_case, homosked, est_mu, mb_times) {
+  res <- microbenchmark(
+    one_test(n, pn, null_case, homosked, est_mu, optmethod = "nlm"),
+    one_test(n, pn, null_case, homosked, est_mu, optmethod = "nohess_nlm"),
+    one_test(n, pn, null_case, homosked, est_mu, optmethod = "trust"),
+    times = mb_times
+  )
+  
+  return(res)
+}
+
+one_n <- function(n, mb_times) {
+  optmethods <- c("nlm", "nohess_nlm", "trust")
+  
+  all_res <- tibble()
+  
+  for (pn in c(TRUE, FALSE)) {
+    for (null_case in c(TRUE, FALSE)) {
+      for (homosked in c(TRUE, FALSE)) {
+        for (est_mu in c(TRUE, FALSE)) {
+          mb_res <- summary(one_mb(n, pn, null_case, homosked, est_mu, mb_times), 
+                            unit = "s")
+          
+          means <- tibble(n = n, pn = pn, null_case = null_case, 
+                          homosked = homosked, est_mu = est_mu, sumstat = "mean", 
+                          optmethod = optmethods, t = mb_res$mean)
+          medians <- tibble(n = n, pn = pn, null_case = null_case, 
+                            homosked = homosked, est_mu = est_mu, sumstat = "median", 
+                            optmethod = optmethods, t = mb_res$median)
+          
+          all_res <- all_res %>%
+            bind_rows(means) %>%
+            bind_rows(medians)
+        }
+      }
+    }
+  }
+  
+  all_res <- all_res %>%
+    group_by(n, pn, null_case, homosked, est_mu, sumstat) %>%
+    summarize(trust = max(ifelse(optmethod == "trust", t, 0)) /
+                max(ifelse(optmethod == "nlm", t, 0)),
+              nohess_nlm = max(ifelse(optmethod == "nohess_nlm", t, 0)) /
+                max(ifelse(optmethod == "nlm", t, 0)),
+              .groups = 'drop')
+  
+  all_res <- all_res %>%
+    gather("comparison_method", "tdiff", trust, nohess_nlm)
+  
+  return(all_res)
+}
+
+plot_one_n <- function(res) {
+  res <- res %>%
+    mutate(x = factor(paste0(ifelse(pn, "PN", "PL"), ifelse(est_mu, " (est mu)", ""))),
+           y = factor(paste0(ifelse(homosked, "Homo, ", "Hetero, "),
+                             ifelse(null_case, "null case", "non-null"))),
+           facet = paste0(comparison_method, " (", sumstat, " timing)")) %>%
+    mutate(x = fct_relevel(x, "PN", "PL", "PN (est mu)", "PL (est mu)"),
+           y = fct_relevel(y, "Hetero, null case", "Hetero, non-null", 
+                           "Homo, null case", "Homo, non-null"))
+  
+  plt <- ggplot(res, aes(x = x, y = y)) + 
+    geom_raster(aes(fill = tdiff)) +
+    scale_fill_gradient2(midpoint = 1) +
+    labs(x = NULL, y = NULL) +
+    facet_wrap(~facet) +
+    ggtitle("Timing differences vs. nlm")
+  
+  return(plt)
+}
+```
+
+## $n = 1000$
+
+```{r n1000}
+plot_one_n(one_n(1000, mb_times = 100L))
+```
+
+## $n = 10000$
+
+```{r n10000}
+plot_one_n(one_n(10000, mb_times = 100L))
+```
+
+## $n = 100000$
+
+```{r n100000}
+plot_one_n(one_n(100000, mb_times = 100L))
+```
