@@ -1,0 +1,102 @@
+---
+title: "Testing point-laplace optimization methods"
+author: "Jason Willwerscheid"
+date: "01/12/2021"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: false
+---
+
+```{r setup, include = FALSE}
+options(width = 100)
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
+```
+
+I compare the performance of different optimization methods for solving the EBNM problem with point-Laplace priors. The "true" prior I've used to generate the data is
+$$ \theta_i \sim 0.9 \delta_0 + 0.1 \text{Laplace}(0, 5) $$
+I set all standard errors equal to 1. This makes function evaluations cheaper, which benefits `nlm` and `optim` since (per the `trust` documentation) `trust` "makes the best possible use of each function, gradient, and Hessian evaluation." Thus, while the corresponding [study](optmethods_pn.html) for point-normal priors showed that `trust` was faster than `nlm` for large $n$, here I find that `nlm` is at least as fast.
+
+```{r code}
+library(microbenchmark)
+library(ebnm)
+library(ggplot2)
+
+test_n <- function(n, mb_times = 100L, seed = 666) {
+  set.seed(seed)
+  # true g is 0.9 delta_0 + 0.1 Laplace(0, 5)
+  theta <- rexp(n, rate = 1 / 5)
+  theta[rbinom(n, size = 1, prob = 0.9) == 1] <- 0
+  s <- 1
+  x <- theta + rnorm(n, sd = s)
+
+  test_res <- microbenchmark(
+    tres <- ebnm_point_laplace(x, s, optmethod = "trust",
+                               control = list(fterm = sqrt(.Machine$double.eps))),
+    ebnm_point_laplace(x, s, optmethod = "nograd_lbfgsb",
+                       control = list(control = list(pgtol = sqrt(.Machine$double.eps)))),
+    ores <- ebnm_point_laplace(x, s, optmethod = "lbfgsb",
+                               control = list(control = list(pgtol = sqrt(.Machine$double.eps)))),
+    ebnm_point_laplace(x, s, optmethod = "nohess_nlm", 
+                       control = list(gradtol = sqrt(.Machine$double.eps))),
+    ebnm_point_laplace(x, s, optmethod = "nograd_nlm", 
+                       control = list(gradtol = sqrt(.Machine$double.eps))),
+    nres <- ebnm_point_laplace(x, s, optmethod = "nlm", 
+                               control = list(gradtol = sqrt(.Machine$double.eps))),
+    times = mb_times
+  )
+
+  levels(test_res$expr) <- c("trust", "L-BFGS-B (no grad)", "L-BFGS-B", 
+                          "nlm (no hess)", "nlm (no grad)", "nlm")
+  
+  llik_res <- c(tres$log_likelihood, ores$log_likelihood, nres$log_likelihood)
+  names(llik_res) <- c("trust", "L-BFGS-B", "nlm")
+  
+  return(list(mb_res = test_res, llik_res = llik_res))
+}
+```
+
+## n = 1000
+
+Difference from maximum log likelihood among all methods:
+
+```{r n1000}
+res1000 <- test_n(1000)
+res1000$llik_res - max(res1000$llik_res)
+```
+
+Timing results: 
+
+```{r n1000t}
+autoplot(res1000$mb_res)
+```
+
+## n = 10000
+
+Difference from maximum log likelihood among all methods:
+
+```{r n10000}
+res10000 <- test_n(10000)
+res10000$llik_res - max(res10000$llik_res)
+```
+
+Timing results: 
+
+```{r n10000t}
+autoplot(res10000$mb_res)
+```
+
+## n = 100000
+
+Difference from maximum log likelihood among all methods:
+
+```{r n100000}
+res100000 <- test_n(100000, mb_times = 50L)
+res100000$llik_res - max(res100000$llik_res)
+```
+
+Timing results: 
+
+```{r n100000t}
+autoplot(res100000$mb_res)
+```
