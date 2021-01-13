@@ -146,7 +146,7 @@ plot_one_n <- function(res) {
            y = factor(paste0(ifelse(homosked, "Homo, ", "Hetero, "),
                              ifelse(null_case, "null case", "non-null"))),
            facet = paste0(comparison_method, " (", sumstat, " timing)")) %>%
-    mutate(x = fct_relevel(x, "PN", "PL", "PN (est mu)", "PL (est mu)"),
+    mutate(x = fct_relevel(x, "PN", "PN (est mu)", "PL", "PL (est mu)"),
            y = fct_relevel(y, "Hetero, null case", "Homo, null case", 
                            "Hetero, non-null", "Homo, non-null")) %>%
     mutate(log2_tdiff = log2(tdiff))
