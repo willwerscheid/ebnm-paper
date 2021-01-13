@@ -20,7 +20,7 @@ I only consider optimization methods `nlm`, `nohess_nlm`, and `trust` here, sinc
 * Standard errors can be identical or different
 * The mode can be estimated or not
 
-I use `nlm` as the baseline and show timing differences for `nohess_nlm` and `trust`. For example, `tdiff = 2` means that `nlm` is faster by a factor of 2. Thus blue squares indicate cases where `nlm` is faster and red squares indicate cases where a competing method is faster. I use `microbenchmark` with differently simulated data for each iteration, and I give comparisons using both mean and median timings.
+I use `nlm` as the baseline and show timing differences for `nohess_nlm` and `trust`. For example, `log2_tdiff = 1` means that `nlm` is faster by a factor of 2. Thus blue squares indicate cases where `nlm` is faster and red squares indicate cases where a competing method is faster. I use `microbenchmark` with differently simulated data for each iteration, and I give comparisons using both mean and median timings.
 
 ```{r code}
 suppressMessages(library(tidyverse))
@@ -55,16 +55,32 @@ one_test <- function(n, pn, null_case, homosked, est_mu, optmethod) {
   }
   
   x <- theta + rnorm(n, sd = s)
-
+  
+  if (pn) {
+    ebnm_fn <- ebnm_point_normal
+  } else {
+    ebnm_fn <- ebnm_point_laplace
+  }
+  
+  if (est_mu) {
+    ebnm_mode <- "estimate"
+  } else {
+    ebnm_mode <- 0
+  }
+  
+  
   if (optmethod == "nlm") {
-    res <- ebnm_point_normal(x, s, optmethod = "nlm", 
-                             control = list(gradtol = sqrt(.Machine$double.eps)))
+    res <- do.call(ebnm_fn, 
+                   list(x = x, s = s, mode = ebnm_mode, optmethod = "nlm", 
+                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 1)))
   } else if (optmethod == "nohess_nlm") {
-    res <- ebnm_point_normal(x, s, optmethod = "nohess_nlm", 
-                             control = list(gradtol = sqrt(.Machine$double.eps)))
+    res <- do.call(ebnm_fn, 
+                   list(x = x, s = s, mode = ebnm_mode, optmethod = "nohess_nlm", 
+                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 1)))
   } else if (optmethod == "trust") {
-    res <- ebnm_point_normal(x, s, optmethod = "trust",
-                             control = list(fterm = sqrt(.Machine$double.eps)))
+    res <- do.call(ebnm_fn, 
+                   list(x = x, s = s, mode = ebnm_mode, optmethod = "trust",
+                        control = list(fterm = sqrt(.Machine$double.eps), rmax = 1)))
   } else {
     stop("Invalid optmethod.")
   }
@@ -132,17 +148,20 @@ plot_one_n <- function(res) {
            facet = paste0(comparison_method, " (", sumstat, " timing)")) %>%
     mutate(x = fct_relevel(x, "PN", "PL", "PN (est mu)", "PL (est mu)"),
            y = fct_relevel(y, "Hetero, null case", "Homo, null case", 
-                           "Hetero, non-null", "Homo, non-null"))
+                           "Hetero, non-null", "Homo, non-null")) %>%
+    mutate(log2_tdiff = log2(tdiff))
   
   plt <- ggplot(res, aes(x = x, y = y)) + 
-    geom_raster(aes(fill = tdiff)) +
-    scale_fill_gradient2(midpoint = 1) +
+    geom_raster(aes(fill = log2_tdiff)) +
+    scale_fill_gradient2(midpoint = 0) +
     labs(x = NULL, y = NULL) +
     facet_wrap(~facet) +
     ggtitle("Timing differences vs. nlm")
   
   return(plt)
 }
+
+set.seed(666)
 ```
 
 ## $n = 1000$
@@ -160,5 +179,5 @@ plot_one_n(one_n(10000, mb_times = 100L))
 ## $n = 100000$
 
 ```{r n100000}
-plot_one_n(one_n(100000, mb_times = 100L))
+plot_one_n(one_n(100000, mb_times = 50L))
 ```
