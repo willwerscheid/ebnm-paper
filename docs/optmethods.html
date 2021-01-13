@@ -443,10 +443,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree21eb97e057fecdbcf71246af4b0d1fa19a38a75ftargetblank21eb97ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/21eb97e057fecdbcf71246af4b0d1fa19a38a75f" target="_blank">21eb97e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreee57f4e0140ccfa5fe203cabff046e9f8705feadctargetblanke57f4e0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/e57f4e0140ccfa5fe203cabff046e9f8705feadc" target="_blank">e57f4e0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree21eb97e057fecdbcf71246af4b0d1fa19a38a75ftargetblank21eb97ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreee57f4e0140ccfa5fe203cabff046e9f8705feadctargetblanke57f4e0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -501,6 +501,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/e57f4e0140ccfa5fe203cabff046e9f8705feadc/analysis/optmethods.Rmd" target="_blank">e57f4e0</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+<td>
+wflow_publish(“analysis/optmethods.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/willwerscheid/ebnm-paper/841d017d86cc5cc4f5980111eba4dc5a72f1fedf/docs/optmethods.html" target="_blank">841d017</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/21eb97e057fecdbcf71246af4b0d1fa19a38a75f/analysis/optmethods.Rmd" target="_blank">21eb97e</a>
 </td>
 <td>
@@ -520,7 +554,7 @@ wflow_publish(“analysis/optmethods.Rmd”)
 </div>
 </div>
 </div>
-<p>I only consider optimization methods <code>nlm</code>, <code>nohess_nlm</code>, and <code>trust</code> here, since previous tests suggested that these were the only consistently competitive methods. I do a more careful comparison here, with sixteen possible scenarios:</p>
+<p>I only consider optimization methods <code>nlm</code>, <code>nohess_nlm</code>, and <code>trust</code> here, since previous tests suggested that these were the only regularly competitive methods. I do a more careful comparison, with sixteen possible scenarios:</p>
 <ul>
 <li>The prior family can be point-normal or point-laplace</li>
 <li>The “true” prior can be an element of the prior family or null</li>
@@ -636,8 +670,8 @@ plot_one_n &lt;- function(res) {
                              ifelse(null_case, &quot;null case&quot;, &quot;non-null&quot;))),
            facet = paste0(comparison_method, &quot; (&quot;, sumstat, &quot; timing)&quot;)) %&gt;%
     mutate(x = fct_relevel(x, &quot;PN&quot;, &quot;PL&quot;, &quot;PN (est mu)&quot;, &quot;PL (est mu)&quot;),
-           y = fct_relevel(y, &quot;Hetero, null case&quot;, &quot;Hetero, non-null&quot;, 
-                           &quot;Homo, null case&quot;, &quot;Homo, non-null&quot;))
+           y = fct_relevel(y, &quot;Hetero, null case&quot;, &quot;Homo, null case&quot;, 
+                           &quot;Hetero, non-null&quot;, &quot;Homo, non-null&quot;))
   
   plt &lt;- ggplot(res, aes(x = x, y = y)) + 
     geom_raster(aes(fill = tdiff)) +
@@ -652,16 +686,128 @@ plot_one_n &lt;- function(res) {
 <h2><span class="math inline">\(n = 1000\)</span></h2>
 <pre class="r"><code>plot_one_n(one_n(1000, mb_times = 100L))</code></pre>
 <p><img src="figure/optmethods.Rmd/n1000-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-n1000-1">
+Past versions of n1000-1.png
+</button>
+</p>
+<div id="fig-n1000-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/841d017d86cc5cc4f5980111eba4dc5a72f1fedf/docs/figure/optmethods.Rmd/n1000-1.png" target="_blank">841d017</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="n-10000" class="section level2">
 <h2><span class="math inline">\(n = 10000\)</span></h2>
 <pre class="r"><code>plot_one_n(one_n(10000, mb_times = 100L))</code></pre>
 <p><img src="figure/optmethods.Rmd/n10000-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-n10000-1">
+Past versions of n10000-1.png
+</button>
+</p>
+<div id="fig-n10000-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/841d017d86cc5cc4f5980111eba4dc5a72f1fedf/docs/figure/optmethods.Rmd/n10000-1.png" target="_blank">841d017</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="n-100000" class="section level2">
 <h2><span class="math inline">\(n = 100000\)</span></h2>
 <pre class="r"><code>plot_one_n(one_n(100000, mb_times = 100L))</code></pre>
-<img src="figure/optmethods.Rmd/n100000-1.png" width="672" style="display: block; margin: auto;" /> <br> <br>
+<p><img src="figure/optmethods.Rmd/n100000-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-n100000-1">
+Past versions of n100000-1.png
+</button>
+</p>
+<div id="fig-n100000-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/841d017d86cc5cc4f5980111eba4dc5a72f1fedf/docs/figure/optmethods.Rmd/n100000-1.png" target="_blank">841d017</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
