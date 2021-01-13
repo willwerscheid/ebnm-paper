@@ -13,7 +13,7 @@ options(width = 100)
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 ```
 
-I only consider optimization methods `nlm`, `nohess_nlm`, and `trust` here, since previous tests suggested that these were the only consistently competitive methods. I do a more careful comparison here, with sixteen possible scenarios:
+I only consider optimization methods `nlm`, `nohess_nlm`, and `trust` here, since previous tests suggested that these were the only regularly competitive methods. I do a more careful comparison, with sixteen possible scenarios:
 
 * The prior family can be point-normal or point-laplace
 * The "true" prior can be an element of the prior family or null
@@ -131,8 +131,8 @@ plot_one_n <- function(res) {
                              ifelse(null_case, "null case", "non-null"))),
            facet = paste0(comparison_method, " (", sumstat, " timing)")) %>%
     mutate(x = fct_relevel(x, "PN", "PL", "PN (est mu)", "PL (est mu)"),
-           y = fct_relevel(y, "Hetero, null case", "Hetero, non-null", 
-                           "Homo, null case", "Homo, non-null"))
+           y = fct_relevel(y, "Hetero, null case", "Homo, null case", 
+                           "Hetero, non-null", "Homo, non-null"))
   
   plt <- ggplot(res, aes(x = x, y = y)) + 
     geom_raster(aes(fill = tdiff)) +
