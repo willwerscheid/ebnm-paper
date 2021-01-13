@@ -443,10 +443,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreeee646460920ec2403a43954a1a040756a079874ctargetblankee64646a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/ee646460920ec2403a43954a1a040756a079874c" target="_blank">ee64646</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreee9d9fe3f5b1ee608cf4fd0610742d6badf944b1atargetblanke9d9fe3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/e9d9fe3f5b1ee608cf4fd0610742d6badf944b1a" target="_blank">e9d9fe3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreeee646460920ec2403a43954a1a040756a079874ctargetblankee64646a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreee9d9fe3f5b1ee608cf4fd0610742d6badf944b1atargetblanke9d9fe3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -496,6 +496,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/e9d9fe3f5b1ee608cf4fd0610742d6badf944b1a/analysis/optmethods.Rmd" target="_blank">e9d9fe3</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+<td>
+wflow_publish(“analysis/optmethods.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/willwerscheid/ebnm-paper/da9666115acc06143021cd47ca5419ea3ed800eb/docs/optmethods.html" target="_blank">da96661</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -719,7 +753,7 @@ plot_one_n &lt;- function(res) {
            y = factor(paste0(ifelse(homosked, &quot;Homo, &quot;, &quot;Hetero, &quot;),
                              ifelse(null_case, &quot;null case&quot;, &quot;non-null&quot;))),
            facet = paste0(comparison_method, &quot; (&quot;, sumstat, &quot; timing)&quot;)) %&gt;%
-    mutate(x = fct_relevel(x, &quot;PN&quot;, &quot;PL&quot;, &quot;PN (est mu)&quot;, &quot;PL (est mu)&quot;),
+    mutate(x = fct_relevel(x, &quot;PN&quot;, &quot;PN (est mu)&quot;, &quot;PL&quot;, &quot;PL (est mu)&quot;),
            y = fct_relevel(y, &quot;Hetero, null case&quot;, &quot;Homo, null case&quot;, 
                            &quot;Hetero, non-null&quot;, &quot;Homo, non-null&quot;)) %&gt;%
     mutate(log2_tdiff = log2(tdiff))
@@ -761,6 +795,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/da9666115acc06143021cd47ca5419ea3ed800eb/docs/figure/optmethods.Rmd/n1000-1.png" target="_blank">da96661</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/f073d621e5522f0cc1f99deb4ca6c05a72ec56d3/docs/figure/optmethods.Rmd/n1000-1.png" target="_blank">f073d62</a>
@@ -816,6 +861,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/da9666115acc06143021cd47ca5419ea3ed800eb/docs/figure/optmethods.Rmd/n10000-1.png" target="_blank">da96661</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/f073d621e5522f0cc1f99deb4ca6c05a72ec56d3/docs/figure/optmethods.Rmd/n10000-1.png" target="_blank">f073d62</a>
 </td>
 <td>
@@ -867,6 +923,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/da9666115acc06143021cd47ca5419ea3ed800eb/docs/figure/optmethods.Rmd/n100000-1.png" target="_blank">da96661</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/f073d621e5522f0cc1f99deb4ca6c05a72ec56d3/docs/figure/optmethods.Rmd/n100000-1.png" target="_blank">f073d62</a>
