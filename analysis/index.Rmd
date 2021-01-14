@@ -15,4 +15,6 @@ Smaller studies:
 * [Optimization methods for point-Laplace priors (null case).](optmethods_pl2.html)
 * [Optimization methods for point-Laplace priors (estimated mode).](optmethods_pl3.html)
 
-[Larger study of optimization methods.](optmethods.html)
+[Larger study of optimization methods, part I: correctly specified model.](optmethods.html)
+
+[Larger study of optimization methods, part II: misspecified model.](optmethods2.html)
