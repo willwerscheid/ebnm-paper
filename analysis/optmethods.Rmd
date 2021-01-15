@@ -72,15 +72,15 @@ one_test <- function(n, pn, null_case, homosked, est_mu, optmethod) {
   if (optmethod == "nlm") {
     res <- do.call(ebnm_fn, 
                    list(x = x, s = s, mode = ebnm_mode, optmethod = "nlm", 
-                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 1)))
+                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 5)))
   } else if (optmethod == "nohess_nlm") {
     res <- do.call(ebnm_fn, 
                    list(x = x, s = s, mode = ebnm_mode, optmethod = "nohess_nlm", 
-                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 1)))
+                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 5)))
   } else if (optmethod == "trust") {
     res <- do.call(ebnm_fn, 
                    list(x = x, s = s, mode = ebnm_mode, optmethod = "trust",
-                        control = list(fterm = sqrt(.Machine$double.eps), rmax = 1)))
+                        control = list(fterm = sqrt(.Machine$double.eps), rmax = 5)))
   } else {
     stop("Invalid optmethod.")
   }
