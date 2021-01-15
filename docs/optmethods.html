@@ -364,7 +364,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-13
+<strong>Last updated:</strong> 2021-01-15
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -443,10 +443,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreee9d9fe3f5b1ee608cf4fd0610742d6badf944b1atargetblanke9d9fe3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/e9d9fe3f5b1ee608cf4fd0610742d6badf944b1a" target="_blank">e9d9fe3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreedb21fe6381d857d215fa60ada37bbe5ccc1d19bftargetblankdb21fe6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/db21fe6381d857d215fa60ada37bbe5ccc1d19bf" target="_blank">db21fe6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreee9d9fe3f5b1ee608cf4fd0610742d6badf944b1atargetblanke9d9fe3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreedb21fe6381d857d215fa60ada37bbe5ccc1d19bftargetblankdb21fe6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -457,7 +457,12 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
+    Untracked:  analysis/ebayesthresh.Rmd
+    Untracked:  docs/figure/ebayesthresh.Rmd/
     Untracked:  sims.R
+
+Unstaged changes:
+    Modified:   analysis/optmethods2.Rmd
 
 </code></pre>
 <p>
@@ -496,6 +501,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/db21fe6381d857d215fa60ada37bbe5ccc1d19bf/analysis/optmethods.Rmd" target="_blank">db21fe6</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-15
+</td>
+<td>
+wflow_publish(“analysis/optmethods.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/willwerscheid/ebnm-paper/b1ae432faf37ca0174ea03cd06f75a2c951b550b/docs/optmethods.html" target="_blank">b1ae432</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -679,15 +718,15 @@ one_test &lt;- function(n, pn, null_case, homosked, est_mu, optmethod) {
   if (optmethod == &quot;nlm&quot;) {
     res &lt;- do.call(ebnm_fn, 
                    list(x = x, s = s, mode = ebnm_mode, optmethod = &quot;nlm&quot;, 
-                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 1)))
+                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 5)))
   } else if (optmethod == &quot;nohess_nlm&quot;) {
     res &lt;- do.call(ebnm_fn, 
                    list(x = x, s = s, mode = ebnm_mode, optmethod = &quot;nohess_nlm&quot;, 
-                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 1)))
+                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 5)))
   } else if (optmethod == &quot;trust&quot;) {
     res &lt;- do.call(ebnm_fn, 
                    list(x = x, s = s, mode = ebnm_mode, optmethod = &quot;trust&quot;,
-                        control = list(fterm = sqrt(.Machine$double.eps), rmax = 1)))
+                        control = list(fterm = sqrt(.Machine$double.eps), rmax = 5)))
   } else {
     stop(&quot;Invalid optmethod.&quot;)
   }
@@ -797,6 +836,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/b1ae432faf37ca0174ea03cd06f75a2c951b550b/docs/figure/optmethods.Rmd/n1000-1.png" target="_blank">b1ae432</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/da9666115acc06143021cd47ca5419ea3ed800eb/docs/figure/optmethods.Rmd/n1000-1.png" target="_blank">da96661</a>
 </td>
 <td>
@@ -861,6 +911,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/b1ae432faf37ca0174ea03cd06f75a2c951b550b/docs/figure/optmethods.Rmd/n10000-1.png" target="_blank">b1ae432</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/da9666115acc06143021cd47ca5419ea3ed800eb/docs/figure/optmethods.Rmd/n10000-1.png" target="_blank">da96661</a>
 </td>
 <td>
@@ -923,6 +984,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/b1ae432faf37ca0174ea03cd06f75a2c951b550b/docs/figure/optmethods.Rmd/n100000-1.png" target="_blank">b1ae432</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-13
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/da9666115acc06143021cd47ca5419ea3ed800eb/docs/figure/optmethods.Rmd/n100000-1.png" target="_blank">da96661</a>
