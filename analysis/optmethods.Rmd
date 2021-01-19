@@ -20,14 +20,16 @@ I only consider optimization methods `nlm`, `nohess_nlm`, and `trust` here, sinc
 * Standard errors can be identical or different
 * The mode can be estimated or not
 
-I use `nlm` as the baseline and show timing differences for `nohess_nlm` and `trust`. For example, `log2_tdiff = 1` means that `nlm` is faster by a factor of 2. Thus blue squares indicate cases where `nlm` is faster and red squares indicate cases where a competing method is faster. I use `microbenchmark` with differently simulated data for each iteration, and I give comparisons using both mean and median timings.
+I use `nlm` as the baseline and show timing differences for `nohess_nlm` and `trust`. For example, `log2_tdiff = 1` means that `nlm` is faster by a factor of 2. Thus blue squares indicate cases where `nlm` is faster and red squares indicate cases where a competing method is faster. 
 
 ```{r code}
 suppressMessages(library(tidyverse))
 library(microbenchmark)
 library(ebnm)
 
-one_test <- function(n, pn, null_case, homosked, est_mu, optmethod) {
+one_sim <- function(n, pn, null_case, homosked, est_mu, seed) {
+  set.seed(seed)
+  
   pi0 <- rbeta(1, shape1 = 10, shape2 = 2)
   scale <- rgamma(1, shape = 4, rate = 1)
   
@@ -56,6 +58,14 @@ one_test <- function(n, pn, null_case, homosked, est_mu, optmethod) {
   
   x <- theta + rnorm(n, sd = s)
   
+  return(list(x = x, s = s))
+}
+
+one_mb <- function(n, pn, null_case, homosked, est_mu, mb_times, seed) {
+  dat <- one_sim(n, pn, null_case, homosked, est_mu, seed)
+  x <- dat$x
+  s <- dat$s
+
   if (pn) {
     ebnm_fn <- ebnm_point_normal
   } else {
@@ -68,116 +78,127 @@ one_test <- function(n, pn, null_case, homosked, est_mu, optmethod) {
     ebnm_mode <- 0
   }
   
-  
-  if (optmethod == "nlm") {
-    res <- do.call(ebnm_fn, 
-                   list(x = x, s = s, mode = ebnm_mode, optmethod = "nlm", 
-                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 5)))
-  } else if (optmethod == "nohess_nlm") {
-    res <- do.call(ebnm_fn, 
-                   list(x = x, s = s, mode = ebnm_mode, optmethod = "nohess_nlm", 
-                        control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 5)))
-  } else if (optmethod == "trust") {
-    res <- do.call(ebnm_fn, 
-                   list(x = x, s = s, mode = ebnm_mode, optmethod = "trust",
-                        control = list(fterm = sqrt(.Machine$double.eps), rmax = 5)))
-  } else {
-    stop("Invalid optmethod.")
-  }
-
-  return(res)
-}
-
-one_mb <- function(n, pn, null_case, homosked, est_mu, mb_times) {
-  res <- microbenchmark(
-    one_test(n, pn, null_case, homosked, est_mu, optmethod = "nlm"),
-    one_test(n, pn, null_case, homosked, est_mu, optmethod = "nohess_nlm"),
-    one_test(n, pn, null_case, homosked, est_mu, optmethod = "trust"),
+  mb_res <- microbenchmark(
+    nlm_res <- do.call(ebnm_fn, 
+                       list(x = x, s = s, mode = ebnm_mode, optmethod = "nlm", 
+                            control = list(gradtol = sqrt(.Machine$double.eps)))),
+    nohess_res <- do.call(ebnm_fn, 
+                          list(x = x, s = s, mode = ebnm_mode, optmethod = "nohess_nlm", 
+                               control = list(gradtol = sqrt(.Machine$double.eps)))),
+    trust_res <- do.call(ebnm_fn, 
+                         list(x = x, s = s, mode = ebnm_mode, optmethod = "trust",
+                              control = list(fterm = sqrt(.Machine$double.eps)))),
     times = mb_times
   )
+  mb_res <- summary(mb_res)
+  
+  res <- list()
+  res$nohess_mean_tdiff <- mb_res$mean[2] / mb_res$mean[1]
+  res$nohess_median_tdiff <- mb_res$median[2] / mb_res$median[1]
+  res$trust_mean_tdiff <- mb_res$mean[3] / mb_res$mean[1]
+  res$trust_median_tdiff <- mb_res$median[3] / mb_res$median[1]
   
   return(res)
 }
 
-one_n <- function(n, mb_times) {
-  optmethods <- c("nlm", "nohess_nlm", "trust")
-  
+one_n <- function(n, mb_times, seeds) {
   all_res <- tibble()
   
-  for (pn in c(TRUE, FALSE)) {
-    for (null_case in c(TRUE, FALSE)) {
-      for (homosked in c(TRUE, FALSE)) {
-        for (est_mu in c(TRUE, FALSE)) {
-          mb_res <- summary(one_mb(n, pn, null_case, homosked, est_mu, mb_times), 
-                            unit = "s")
-          
-          means <- tibble(n = n, pn = pn, null_case = null_case, 
-                          homosked = homosked, est_mu = est_mu, sumstat = "mean", 
-                          optmethod = optmethods, t = mb_res$mean)
-          medians <- tibble(n = n, pn = pn, null_case = null_case, 
-                            homosked = homosked, est_mu = est_mu, sumstat = "median", 
-                            optmethod = optmethods, t = mb_res$median)
-          
-          all_res <- all_res %>%
-            bind_rows(means) %>%
-            bind_rows(medians)
+  for (seed in seeds) {
+    for (pn in c(TRUE, FALSE)) {
+      for (null_case in c(TRUE, FALSE)) {
+        for (homosked in c(TRUE, FALSE)) {
+          for (est_mu in c(TRUE, FALSE)) {
+            mb_res <- one_mb(n, pn, null_case, homosked, est_mu, mb_times, seed)
+            
+            all_res <- all_res %>%
+              bind_rows(tibble(seed = seed, n = n, pn = pn, null_case = null_case, 
+                               homosked = homosked, est_mu = est_mu,
+                               optmethod = "nohess", 
+                               mean_tdiff = mb_res$nohess_mean_tdiff, 
+                               median_tdiff = mb_res$nohess_median_tdiff)) %>%
+              bind_rows(tibble(seed = seed, n = n, pn = pn, null_case = null_case, 
+                               homosked = homosked, est_mu = est_mu,
+                               optmethod = "trust", 
+                               mean_tdiff = mb_res$trust_mean_tdiff, 
+                               median_tdiff = mb_res$trust_median_tdiff))
+          }
         }
       }
     }
   }
-  
-  all_res <- all_res %>%
-    group_by(n, pn, null_case, homosked, est_mu, sumstat) %>%
-    summarize(trust = max(ifelse(optmethod == "trust", t, 0)) /
-                max(ifelse(optmethod == "nlm", t, 0)),
-              nohess_nlm = max(ifelse(optmethod == "nohess_nlm", t, 0)) /
-                max(ifelse(optmethod == "nlm", t, 0)),
-              .groups = 'drop')
-  
-  all_res <- all_res %>%
-    gather("comparison_method", "tdiff", trust, nohess_nlm)
-  
+
   return(all_res)
 }
 
 plot_one_n <- function(res) {
-  res <- res %>%
+  df <- res %>%
+    group_by(n, pn, null_case, homosked, est_mu, optmethod) %>%
+    summarize(log2_tdiff = log2(mean(mean_tdiff)), .groups = 'drop') %>%
     mutate(x = factor(paste0(ifelse(pn, "PN", "PL"), ifelse(est_mu, " (est mu)", ""))),
            y = factor(paste0(ifelse(homosked, "Homo, ", "Hetero, "),
-                             ifelse(null_case, "null case", "non-null"))),
-           facet = paste0(comparison_method, " (", sumstat, " timing)")) %>%
+                             ifelse(null_case, "null case", "non-null")))) %>%
     mutate(x = fct_relevel(x, "PN", "PN (est mu)", "PL", "PL (est mu)"),
            y = fct_relevel(y, "Hetero, null case", "Homo, null case", 
-                           "Hetero, non-null", "Homo, non-null")) %>%
-    mutate(log2_tdiff = log2(tdiff))
+                           "Hetero, non-null", "Homo, non-null"))
   
-  plt <- ggplot(res, aes(x = x, y = y)) + 
+  plt <- ggplot(df, aes(x = x, y = y)) + 
     geom_raster(aes(fill = log2_tdiff)) +
     scale_fill_gradient2(midpoint = 0) +
     labs(x = NULL, y = NULL) +
-    facet_wrap(~facet) +
+    facet_wrap(~optmethod) +
     ggtitle("Timing differences vs. nlm")
   
   return(plt)
 }
 
-set.seed(666)
+# one_plot <- function(res, plot_pn, plot_est_mu) {
+#   df <- res %>%
+#     filter(pn == plot_pn, est_mu == plot_est_mu)
+#   
+#   df <- df %>%
+#     mutate(log2_tdiff = log2(mean_tdiff)) %>%
+#     mutate(x = paste0(ifelse(null_case, "null", "nonnull"), ", ", 
+#                       ifelse(homosked, "homo", "het"))) %>%
+#     mutate(x = fct_relevel(x, "null, homo", "null, het", "nonnull, homo", "nonnull, het"))
+# 
+#   plot(ggplot(df, aes(x = x, y = log2_tdiff)) +
+#          geom_boxplot() + 
+#          geom_jitter(width = 0.3) +
+#          labs(x = NULL, y = NULL) +
+#          geom_hline(aes(yintercept = 0), linetype = "dashed") + 
+#          ggtitle(paste0("log2 difference in timing vs. nlm: ",
+#                         ifelse(plot_pn, "point-normal", "point-Laplace"), ", ",
+#                         ifelse(plot_est_mu, "estimate mu", "fix mu"))) +
+#          facet_wrap(~optmethod))
+# }
+# 
+# plot_one_n <- function(res) {
+#   for (pn in c(TRUE, FALSE)) {
+#     for (est_mu in c(FALSE, TRUE)) {
+#       one_plot(res, pn, est_mu)
+#     }
+#   }
+# }
 ```
 
 ## $n = 1000$
 
 ```{r n1000}
-plot_one_n(one_n(1000, mb_times = 100L))
+res1000 <- one_n(1000, mb_times = 20L, seeds = 1:20)
+plot_one_n(res1000)
 ```
 
 ## $n = 10000$
 
 ```{r n10000}
-plot_one_n(one_n(10000, mb_times = 100L))
+res10000 <- one_n(10000, mb_times = 10L, seeds = 1:20)
+plot_one_n(res10000)
 ```
 
 ## $n = 100000$
 
 ```{r n100000}
-plot_one_n(one_n(100000, mb_times = 50L))
+res100000 <- one_n(100000, mb_times = 5L, seeds = 1:20)
+plot_one_n(res100000)
 ```
