@@ -142,7 +142,7 @@ plot_one_n <- function(res) {
                              ifelse(heavy_tail, "heavy", "nonzero mu")))) %>%
     mutate(x = fct_relevel(x, "PN", "PN (est mu)", "PL", "PL (est mu)"),
            y = fct_relevel(y, "Hetero, nonzero mu", "Homo, nonzero mu", 
-                           "Hetero, heavy", "Homo, non-heavy"))
+                           "Hetero, heavy", "Homo, heavy"))
   
   plt <- ggplot(df, aes(x = x, y = y)) + 
     geom_raster(aes(fill = log2_tdiff)) +
