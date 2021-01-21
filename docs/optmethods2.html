@@ -364,7 +364,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-20
+<strong>Last updated:</strong> 2021-01-21
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -443,10 +443,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree00b435609e4d18049b5556c1ded3daf93b1c5482targetblank00b4356a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/00b435609e4d18049b5556c1ded3daf93b1c5482" target="_blank">00b4356</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreedd2403ad92ccf764337223ece725b08db4eab053targetblankdd2403aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/dd2403ad92ccf764337223ece725b08db4eab053" target="_blank">dd2403a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree00b435609e4d18049b5556c1ded3daf93b1c5482targetblank00b4356a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertreedd2403ad92ccf764337223ece725b08db4eab053targetblankdd2403aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -499,6 +499,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/dd2403ad92ccf764337223ece725b08db4eab053/analysis/optmethods2.Rmd" target="_blank">dd2403a</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-21
+</td>
+<td>
+wflow_publish(“analysis/optmethods2.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/willwerscheid/ebnm-paper/20ce7cc1ec11ad2bcfc08b39ca5ae4b990582ffe/docs/optmethods2.html" target="_blank">20ce7cc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -684,7 +718,7 @@ plot_one_n &lt;- function(res) {
                              ifelse(heavy_tail, &quot;heavy&quot;, &quot;nonzero mu&quot;)))) %&gt;%
     mutate(x = fct_relevel(x, &quot;PN&quot;, &quot;PN (est mu)&quot;, &quot;PL&quot;, &quot;PL (est mu)&quot;),
            y = fct_relevel(y, &quot;Hetero, nonzero mu&quot;, &quot;Homo, nonzero mu&quot;, 
-                           &quot;Hetero, heavy&quot;, &quot;Homo, non-heavy&quot;))
+                           &quot;Hetero, heavy&quot;, &quot;Homo, heavy&quot;))
   
   plt &lt;- ggplot(df, aes(x = x, y = y)) + 
     geom_raster(aes(fill = log2_tdiff)) +
@@ -699,10 +733,6 @@ plot_one_n &lt;- function(res) {
 <h2><span class="math inline">\(n = 1000\)</span></h2>
 <pre class="r"><code>res1000 &lt;- one_n(1000, mb_times = 20L, seeds = 1:20)
 plot_one_n(res1000)</code></pre>
-<pre><code>#&gt; Warning: Problem with `mutate()` input `y`.
-#&gt; ℹ Unknown levels in `f`: Homo, non-heavy
-#&gt; ℹ Input `y` is `fct_relevel(...)`.</code></pre>
-<pre><code>#&gt; Warning: Unknown levels in `f`: Homo, non-heavy</code></pre>
 <p><img src="figure/optmethods2.Rmd/n1000-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-n1000-1">
@@ -728,6 +758,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/20ce7cc1ec11ad2bcfc08b39ca5ae4b990582ffe/docs/figure/optmethods2.Rmd/n1000-1.png" target="_blank">20ce7cc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/80b717d9fe1138263f541f7de73f0e3846f59f00/docs/figure/optmethods2.Rmd/n1000-1.png" target="_blank">80b717d</a>
 </td>
 <td>
@@ -746,10 +787,6 @@ Jason Willwerscheid
 <h2><span class="math inline">\(n = 10000\)</span></h2>
 <pre class="r"><code>res10000 &lt;- one_n(10000, mb_times = 10L, seeds = 1:20)
 plot_one_n(res10000)</code></pre>
-<pre><code>#&gt; Warning: Problem with `mutate()` input `y`.
-#&gt; ℹ Unknown levels in `f`: Homo, non-heavy
-#&gt; ℹ Input `y` is `fct_relevel(...)`.</code></pre>
-<pre><code>#&gt; Warning: Unknown levels in `f`: Homo, non-heavy</code></pre>
 <p><img src="figure/optmethods2.Rmd/n10000-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-n10000-1">
@@ -775,6 +812,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/20ce7cc1ec11ad2bcfc08b39ca5ae4b990582ffe/docs/figure/optmethods2.Rmd/n10000-1.png" target="_blank">20ce7cc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/80b717d9fe1138263f541f7de73f0e3846f59f00/docs/figure/optmethods2.Rmd/n10000-1.png" target="_blank">80b717d</a>
 </td>
 <td>
@@ -793,10 +841,6 @@ Jason Willwerscheid
 <h2><span class="math inline">\(n = 100000\)</span></h2>
 <pre class="r"><code>res100000 &lt;- one_n(100000, mb_times = 5L, seeds = 1:20)
 plot_one_n(res100000)</code></pre>
-<pre><code>#&gt; Warning: Problem with `mutate()` input `y`.
-#&gt; ℹ Unknown levels in `f`: Homo, non-heavy
-#&gt; ℹ Input `y` is `fct_relevel(...)`.</code></pre>
-<pre><code>#&gt; Warning: Unknown levels in `f`: Homo, non-heavy</code></pre>
 <p><img src="figure/optmethods2.Rmd/n100000-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-n100000-1">
@@ -820,6 +864,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/20ce7cc1ec11ad2bcfc08b39ca5ae4b990582ffe/docs/figure/optmethods2.Rmd/n100000-1.png" target="_blank">20ce7cc</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/80b717d9fe1138263f541f7de73f0e3846f59f00/docs/figure/optmethods2.Rmd/n100000-1.png" target="_blank">80b717d</a>
