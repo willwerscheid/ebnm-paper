@@ -364,7 +364,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-12
+<strong>Last updated:</strong> 2021-01-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -443,10 +443,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree39fece5808142aebc190ee9b2a70da421600a7e9targetblank39fece5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/39fece5808142aebc190ee9b2a70da421600a7e9" target="_blank">39fece5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree1cef52381e00c78b099fd3c9bfd32f8429e23a9btargetblank1cef523a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/willwerscheid/ebnm-paper/tree/1cef52381e00c78b099fd3c9bfd32f8429e23a9b" target="_blank">1cef523</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree39fece5808142aebc190ee9b2a70da421600a7e9targetblank39fece5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwillwerscheidebnmpapertree1cef52381e00c78b099fd3c9bfd32f8429e23a9btargetblank1cef523a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -460,8 +460,7 @@ Untracked files:
     Untracked:  sims.R
 
 Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/ebayesthresh.Rmd
 
 </code></pre>
 <p>
@@ -500,6 +499,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/1cef52381e00c78b099fd3c9bfd32f8429e23a9b/analysis/optmethods_pl.Rmd" target="_blank">1cef523</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-22
+</td>
+<td>
+wflow_publish(“analysis/optmethods_pl.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/willwerscheid/ebnm-paper/1f16a17ace3258221d346128f602b36e2e56a4be/docs/optmethods_pl.html" target="_blank">1f16a17</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -574,6 +607,10 @@ test_n &lt;- function(n, mb_times = 100L, seed = 666) {
   test_res &lt;- microbenchmark(
     tres &lt;- ebnm_point_laplace(x, s, optmethod = &quot;trust&quot;,
                                control = list(fterm = sqrt(.Machine$double.eps))),
+    ebnm_point_laplace(x, s, optmethod = &quot;notrans_nograd_lbfgsb&quot;,
+                       control = list(pgtol = sqrt(.Machine$double.eps))),
+    ures &lt;- ebnm_point_laplace(x, s, optmethod = &quot;notrans_lbfgsb&quot;,
+                       control = list(pgtol = sqrt(.Machine$double.eps))),
     ebnm_point_laplace(x, s, optmethod = &quot;nograd_lbfgsb&quot;,
                        control = list(pgtol = sqrt(.Machine$double.eps))),
     ores &lt;- ebnm_point_laplace(x, s, optmethod = &quot;lbfgsb&quot;,
@@ -587,11 +624,14 @@ test_n &lt;- function(n, mb_times = 100L, seed = 666) {
     times = mb_times
   )
 
-  levels(test_res$expr) &lt;- c(&quot;trust&quot;, &quot;L-BFGS-B (no grad)&quot;, &quot;L-BFGS-B&quot;, 
-                          &quot;nlm (no hess)&quot;, &quot;nlm (no grad)&quot;, &quot;nlm&quot;)
+  levels(test_res$expr) &lt;- c(&quot;trust&quot;, 
+                             &quot;L-BFGS-B (no grad, no trans)&quot;, &quot;L-BFGS-B (no trans)&quot;,
+                             &quot;L-BFGS-B (no grad)&quot;, &quot;L-BFGS-B&quot;,
+                             &quot;nlm (no hess)&quot;, &quot;nlm (no grad)&quot;, &quot;nlm&quot;)
   
-  llik_res &lt;- c(tres$log_likelihood, ores$log_likelihood, nres$log_likelihood)
-  names(llik_res) &lt;- c(&quot;trust&quot;, &quot;L-BFGS-B&quot;, &quot;nlm&quot;)
+  llik_res &lt;- c(nres$log_likelihood, ores$log_likelihood, 
+                ures$log_likelihood, tres$log_likelihood)
+  names(llik_res) &lt;- c(&quot;nlm&quot;, &quot;L-BFGS-B&quot;, &quot;L-BFGS-B (no trans)&quot;, &quot;trust&quot;)
   
   return(list(mb_res = test_res, llik_res = llik_res))
 }</code></pre>
@@ -600,8 +640,8 @@ test_n &lt;- function(n, mb_times = 100L, seed = 666) {
 <p>Difference from maximum log likelihood among all methods:</p>
 <pre class="r"><code>res1000 &lt;- test_n(1000)
 res1000$llik_res - max(res1000$llik_res)</code></pre>
-<pre><code>#&gt;         trust      L-BFGS-B           nlm 
-#&gt;  0.000000e+00 -2.728484e-12 -4.547474e-13</code></pre>
+<pre><code>#&gt;                 nlm            L-BFGS-B L-BFGS-B (no trans)               trust 
+#&gt;       -4.547474e-13       -2.728484e-12       -5.968718e-08        0.000000e+00</code></pre>
 <p>Timing results:</p>
 <pre class="r"><code>autoplot(res1000$mb_res)</code></pre>
 <pre><code>#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
@@ -630,6 +670,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/1f16a17ace3258221d346128f602b36e2e56a4be/docs/figure/optmethods_pl.Rmd/n1000t-1.png" target="_blank">1f16a17</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/25b5d6d0e28be0adbe4b9961d4dfae0d8a49b9bd/docs/figure/optmethods_pl.Rmd/n1000t-1.png" target="_blank">25b5d6d</a>
 </td>
 <td>
@@ -649,8 +700,8 @@ Jason Willwerscheid
 <p>Difference from maximum log likelihood among all methods:</p>
 <pre class="r"><code>res10000 &lt;- test_n(10000)
 res10000$llik_res - max(res10000$llik_res)</code></pre>
-<pre><code>#&gt;         trust      L-BFGS-B           nlm 
-#&gt;  0.000000e+00 -6.002665e-10  0.000000e+00</code></pre>
+<pre><code>#&gt;                 nlm            L-BFGS-B L-BFGS-B (no trans)               trust 
+#&gt;        0.000000e+00       -6.002665e-10        0.000000e+00        0.000000e+00</code></pre>
 <p>Timing results:</p>
 <pre class="r"><code>autoplot(res10000$mb_res)</code></pre>
 <pre><code>#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
@@ -679,6 +730,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/1f16a17ace3258221d346128f602b36e2e56a4be/docs/figure/optmethods_pl.Rmd/n10000t-1.png" target="_blank">1f16a17</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/25b5d6d0e28be0adbe4b9961d4dfae0d8a49b9bd/docs/figure/optmethods_pl.Rmd/n10000t-1.png" target="_blank">25b5d6d</a>
 </td>
 <td>
@@ -698,8 +760,8 @@ Jason Willwerscheid
 <p>Difference from maximum log likelihood among all methods:</p>
 <pre class="r"><code>res100000 &lt;- test_n(100000, mb_times = 50L)
 res100000$llik_res - max(res100000$llik_res)</code></pre>
-<pre><code>#&gt;         trust      L-BFGS-B           nlm 
-#&gt; -2.910383e-11 -5.160109e-08  0.000000e+00</code></pre>
+<pre><code>#&gt;                 nlm            L-BFGS-B L-BFGS-B (no trans)               trust 
+#&gt;        0.000000e+00       -5.160109e-08       -1.183993e-05        0.000000e+00</code></pre>
 <p>Timing results:</p>
 <pre class="r"><code>autoplot(res100000$mb_res)</code></pre>
 <pre><code>#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
@@ -726,6 +788,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/willwerscheid/ebnm-paper/blob/1f16a17ace3258221d346128f602b36e2e56a4be/docs/figure/optmethods_pl.Rmd/n100000t-1.png" target="_blank">1f16a17</a>
+</td>
+<td>
+Jason Willwerscheid
+</td>
+<td>
+2021-01-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/willwerscheid/ebnm-paper/blob/25b5d6d0e28be0adbe4b9961d4dfae0d8a49b9bd/docs/figure/optmethods_pl.Rmd/n100000t-1.png" target="_blank">25b5d6d</a>
@@ -764,19 +837,19 @@ Jason Willwerscheid
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] ggplot2_3.3.3        ebnm_0.1-29          microbenchmark_1.4-7
+#&gt; [1] ggplot2_3.3.3        ebnm_0.1-33          microbenchmark_1.4-7 workflowr_1.2.0     
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.4.6      compiler_3.5.3    pillar_1.4.7      git2r_0.25.2      workflowr_1.2.0  
-#&gt;  [6] tools_3.5.3       digest_0.6.18     evaluate_0.13     tibble_3.0.4      lifecycle_0.2.0  
-#&gt; [11] gtable_0.3.0      lattice_0.20-38   pkgconfig_2.0.2   rlang_0.4.10      Matrix_1.2-15    
-#&gt; [16] yaml_2.2.0        xfun_0.6          invgamma_1.1      withr_2.1.2       dplyr_1.0.2      
-#&gt; [21] stringr_1.4.0     knitr_1.22        generics_0.0.2    vctrs_0.3.6       fs_1.2.7         
-#&gt; [26] tidyselect_1.1.0  trust_0.1-8       rprojroot_1.3-2   grid_3.5.3        glue_1.4.2       
-#&gt; [31] R6_2.4.0          rmarkdown_1.12    mixsqp_0.3-40     irlba_2.3.3       purrr_0.3.4      
-#&gt; [36] ashr_2.2-51       magrittr_1.5      whisker_0.3-2     backports_1.1.3   scales_1.0.0     
-#&gt; [41] htmltools_0.3.6   ellipsis_0.3.0    colorspace_1.4-1  stringi_1.4.3     munsell_0.5.0    
-#&gt; [46] truncnorm_1.0-8   SQUAREM_2017.10-1 crayon_1.3.4</code></pre>
+#&gt;  [1] Rcpp_1.0.4.6      compiler_3.5.3    pillar_1.4.7      git2r_0.25.2      tools_3.5.3      
+#&gt;  [6] digest_0.6.18     evaluate_0.13     tibble_3.0.4      lifecycle_0.2.0   gtable_0.3.0     
+#&gt; [11] lattice_0.20-38   pkgconfig_2.0.2   rlang_0.4.10      Matrix_1.2-15     yaml_2.2.0       
+#&gt; [16] xfun_0.6          invgamma_1.1      withr_2.4.0       dplyr_1.0.2       stringr_1.4.0    
+#&gt; [21] knitr_1.22        generics_0.0.2    vctrs_0.3.6       fs_1.2.7          tidyselect_1.1.0 
+#&gt; [26] trust_0.1-8       rprojroot_1.3-2   grid_3.5.3        glue_1.4.2        R6_2.4.0         
+#&gt; [31] rmarkdown_1.12    mixsqp_0.3-40     irlba_2.3.3       purrr_0.3.4       ashr_2.2-51      
+#&gt; [36] magrittr_1.5      whisker_0.3-2     backports_1.1.3   scales_1.0.0      htmltools_0.3.6  
+#&gt; [41] ellipsis_0.3.0    colorspace_1.4-1  stringi_1.4.3     munsell_0.5.0     truncnorm_1.0-8  
+#&gt; [46] SQUAREM_2017.10-1 crayon_1.3.4</code></pre>
 </div>
 </div>
 
