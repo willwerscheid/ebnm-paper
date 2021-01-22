@@ -33,6 +33,10 @@ test_n <- function(n, mb_times = 100L, seed = 666) {
   test_res <- microbenchmark(
     tres <- ebnm_point_laplace(x, s, optmethod = "trust",
                                control = list(fterm = sqrt(.Machine$double.eps))),
+    ebnm_point_laplace(x, s, optmethod = "notrans_nograd_lbfgsb",
+                       control = list(pgtol = sqrt(.Machine$double.eps))),
+    ures <- ebnm_point_laplace(x, s, optmethod = "notrans_lbfgsb",
+                       control = list(pgtol = sqrt(.Machine$double.eps))),
     ebnm_point_laplace(x, s, optmethod = "nograd_lbfgsb",
                        control = list(pgtol = sqrt(.Machine$double.eps))),
     ores <- ebnm_point_laplace(x, s, optmethod = "lbfgsb",
@@ -46,11 +50,14 @@ test_n <- function(n, mb_times = 100L, seed = 666) {
     times = mb_times
   )
 
-  levels(test_res$expr) <- c("trust", "L-BFGS-B (no grad)", "L-BFGS-B", 
-                          "nlm (no hess)", "nlm (no grad)", "nlm")
+  levels(test_res$expr) <- c("trust", 
+                             "L-BFGS-B (no grad, no trans)", "L-BFGS-B (no trans)",
+                             "L-BFGS-B (no grad)", "L-BFGS-B",
+                             "nlm (no hess)", "nlm (no grad)", "nlm")
   
-  llik_res <- c(tres$log_likelihood, ores$log_likelihood, nres$log_likelihood)
-  names(llik_res) <- c("trust", "L-BFGS-B", "nlm")
+  llik_res <- c(nres$log_likelihood, ores$log_likelihood, 
+                ures$log_likelihood, tres$log_likelihood)
+  names(llik_res) <- c("nlm", "L-BFGS-B", "L-BFGS-B (no trans)", "trust")
   
   return(list(mb_res = test_res, llik_res = llik_res))
 }
