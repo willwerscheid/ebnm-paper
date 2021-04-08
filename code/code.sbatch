@@ -9,4 +9,4 @@
 #SBATCH --mem=16G
 
 module load R/3.6.1
-Rscript code.R
+Rscript code.R incl-appendix
