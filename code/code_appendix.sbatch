@@ -5,8 +5,8 @@
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=8
+#SBATCH --cpus-per-task=8
 #SBATCH --mem=16G
 
 module load R/3.6.1
-Rscript code.R incl-appendix
+Rscript code.R appendix-only

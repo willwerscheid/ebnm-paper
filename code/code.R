@@ -1,6 +1,7 @@
 args <- commandArgs(trailingOnly = TRUE)
 
-valid.args <- args %in% c("no-output", "no-figs", "no-examples", "incl-appendix", "out-to-file", "test")
+valid.args <- args %in% c("no-output", "no-figs", "no-examples", 
+                          "incl-appendix", "appendix-only", "out-to-file", "test")
 if (!all(valid.args)) {
   stop("Command line argument ",
        min(which(!valid.args)),
@@ -12,6 +13,9 @@ if ("out-to-file" %in% args) {
 }
 
 test <- "test" %in% args
+do_main <- !("appendix-only" %in% args)
+do_appendix <- ("incl-appendix" %in% args) || ("appendix-only" %in% args)
+do_examples <- !(("no-examples" %in% args) || ("appendix-only" %in% args))
 
 library(tidyverse)
 library(ashr)
@@ -27,13 +31,15 @@ if (!("no-output" %in% args)) {
   setwd("./make_output/")
   
   # Output needed for figures in main text:
-  source("./ashr_grid_smn.R")
-  source("./ashr_grid_symm.R")
-  source("./time_comps.R")
-  source("./wOBA.R")
+  if (do_main) {
+    source("./ashr_grid_smn.R")
+    source("./ashr_grid_symm.R")
+    source("./time_comps.R")
+    source("./wOBA.R")
+  }
   
   # Output needed for figures in appendices:
-  if ("incl-appendix" %in% args) {
+  if (do_appendix) {
     source("./optmethods.R")
     source("./ebayesthresh.R")
     source("./ebnm_v_ashr.R")
@@ -51,10 +57,12 @@ if (!("no-figs" %in% args)) {
   
   setwd("./make_figs/")
   
-  source("./ashr_grid_figs.R")
-  source("./timecomps_fig.R")
+  if (do_main) {
+    source("./ashr_grid_figs.R")
+    source("./timecomps_fig.R")
+  }
   
-  if ("incl-appendix" %in% args) {
+  if (do_appendix) {
     source("./optmethods_figs.R")
     source("./ebayesthresh_fig.R")
     source("./ebnm_v_ashr_fig.R")
@@ -67,7 +75,7 @@ if (!("no-figs" %in% args)) {
 
 # Examples:
 
-if (!("no-examples" %in% args)) {
+if (do_examples) {
   setwd("./examples/")
   
   source("./sims_example.R")
