@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=ebnm-paper
-#SBATCH --output=code_output.txt
-#SBATCH --error=code_output.err
+#SBATCH --output=code_output_appendix.txt
+#SBATCH --error=code_output_appendix.err
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --nodes=1
