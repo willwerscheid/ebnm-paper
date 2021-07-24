@@ -15,13 +15,15 @@ if (!all(valid.args)) {
 }
 
 if ("out-to-file" %in% args) {
-  if (!("incl-appendix" %in% args)) {
-    sink("./code_output_main.txt")
-  } else if ("appendix-only" %in% args) {
-    sink("./code_output_appendix.txt")
+  if ("appendix-only" %in% args) {
+    out_file <- file("./output/code_output_appendix.txt", open = "wt")
+  } else if (!("incl-appendix" %in% args)) {
+    out_file <- file("./output/code_output_main.txt", open = "wt")
   } else {
-    sink("./code_output_all.txt")
+    out_file <- file("./output/code_output_all.txt", open = "wt")
   }
+  sink(out_file)
+  sink(out_file, type = "message")
 }
 
 test <- "test" %in% args
@@ -30,6 +32,7 @@ do_appendix <- ("incl-appendix" %in% args) || ("appendix-only" %in% args)
 
 
 library(tidyverse)
+library(flashier)
 library(ashr)
 library(ebnm)
 library(EbayesThresh)
@@ -95,7 +98,7 @@ if (!("no-figs" %in% args)) {
 setwd("./examples/")
 
 if (do_main) {
-  source("./sims_study.R")
+  source("./sim_study.R")
   source("./eight_schools.R")
   source("./gtex.R")
 }

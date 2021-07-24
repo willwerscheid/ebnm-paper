@@ -1,4 +1,4 @@
-all_res <- readRDS("./output/gridtests.rds")
+all_res <- readRDS("../../output/gridtests.rds")
 
 all_res <- all_res %>%
   mutate(llik_diff = pmax(diff, 0),

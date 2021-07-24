@@ -18,9 +18,14 @@ asymm_tophat <- function(n) {
   return(list(theta = samp, x = samp + rnorm(n)))
 }
 
+if (exists("test") && test) {
+  nsim <- 1
+  n <- 100
+} else {
+  nsim <- 10
+  n <- 1000
+}
 
-nsim <- 10
-n <- 1000
 ebnm_fns <- c("ebnm_normal",
               "ebnm_point_normal",
               "ebnm_point_laplace",
@@ -39,9 +44,9 @@ sim_fns <- c("point_normal",
              
 all_res <- tibble()
 for (sim_fn in sim_fns) {
-  cat("SIM FN:", sim_fn, "\n")
+  cat("  Sim function:", sim_fn, "\n")
   for (i in 1:nsim) {
-    cat("SIMULATION", i, ":\n")
+    cat("    trial", i, "\n")
     set.seed(i)
     sim_data <- do.call(sim_fn, list(n = n))
     ebnm_res <- list()
@@ -57,7 +62,9 @@ for (sim_fn in sim_fns) {
     })
     
     confint_cov <- sapply(ebnm_res, function(res) {
-      samp <- res$posterior_sampler(10000)
+      zz <- capture.output({
+        samp <- res$posterior_sampler(10000)
+      })
       ci <- apply(samp, 2, quantile, probs = c(0.05, 0.95))
       return(1 - mean(sim_data$theta < ci[1, ] | sim_data$theta > ci[2, ]))
     })

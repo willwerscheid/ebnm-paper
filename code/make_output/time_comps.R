@@ -1,7 +1,6 @@
 ## Timing different prior families.
 
 cat("\nTiming different prior families.\n",
-    "This takes about an hour.\n",
     "n ranges from 1e3 to 1e6.\n\n")
 
 # Mixture of point mass at zero and t_5

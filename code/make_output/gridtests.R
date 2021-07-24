@@ -1,10 +1,17 @@
+## Estimating difference in objective between ebnm solutions and 'optimal' solutions.
+
+cat("\nEstimating quality of grids for different prior families.\n",
+    "n ranges from 1e2 to 1e4 for normalmix/unimix and from 30 to 3000 for npmle.\n\n")
+
 set.seed(666)
 ntrials <- 20
 
 if (exists("test") && test) {
-  ns <- 10^(2:3)
+  ns <- 10^(1:2)
+  Ks <- c(30, 50)
 } else {
   ns <- 10^(2:4)
+  Ks <- c(30, 50, 80, 100, 120, 150, 200, 300)
 }
 
 maxcomp <- 5
@@ -12,13 +19,14 @@ families <- c("npmle", "normalmix", "unimix")
 
 all_res <- tibble()
 for (family in families) {
+  cat("  Prior family:", family, "\n")
   for (n in ns) {
-    if (family == "npmle") {
+    if (family == "npmle" && !exists("test") && !test) {
       n <- 3 * n / 10
     }
-    cat("n =", n, "\n")
+    cat("    n:", n, "\n")
     for (i in 1:ntrials) {
-      cat("  trial", i, "\n")
+      cat("      trial", i, "\n")
       ncomp <- sample(1:maxcomp)
       scale <- rexp(ncomp, rate = 1/5)
       prop <- runif(ncomp)
@@ -40,7 +48,7 @@ for (family in families) {
       ebnm_def <- do.call(ebnm_fn, list(x = x, s = 1))
       
       res <- tibble()
-      for (K in c(30, 50, 80, 100, 120, 150, 200, 300)) {
+      for (K in Ks) {
         if (family == "npmle") {
           g_init <- ebnm:::init_g_for_npmle(x, s = 1, scale = sqrt(8 / n))
           ebnm_res <- do.call(ebnm_fn, list(x, s = 1, g_init = g_init, fix_g = FALSE))

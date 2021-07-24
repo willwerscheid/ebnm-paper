@@ -1,6 +1,6 @@
 ## Performance comparisons: ebnm_npmle vs. REBayes
 
-rebayes <- readRDS("./output/rebayes.rds")
+rebayes <- readRDS("../../output/rebayes.rds")
 rebayes <- rebayes %>%
   mutate(homosked = ifelse(homosked, "homoskedastic", "heteroskedastic"),
          homosked = fct_relevel(homosked, "homoskedastic", "heteroskedastic")) %>%
@@ -17,4 +17,4 @@ ggplot(rebayes, aes(x = n, y = package, fill = t_penalty)) +
   labs(x = "\nn", y = "package\n", fill = "t vs. fastest\n(log2 scale)\n") +
   facet_grid(cols = vars(n_gridpts), rows = vars(homosked))
   
-ggsave("./figs/rebayes.png", width = 6, height = 3.375)
+ggsave("../../figs/rebayes.png", width = 6, height = 3.375)

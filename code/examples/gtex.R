@@ -1,3 +1,5 @@
+cat("\nReading GTEx files...\n\n")
+
 gtex <- readRDS(gzcon(url("https://github.com/stephenslab/gtexresults/blob/master/data/MatrixEQTLSumStats.Portable.Z.rds?raw=TRUE")))
 strong <- t(gtex$strong.z)
 
@@ -7,20 +9,32 @@ gtex.colors <- gtex.colors[-missing.tissues, ]
 gtex.colors <- gtex.colors %>% pull(X2)
 names(gtex.colors) <- rownames(strong)
 
+cat("\nRunning flash...\n\n")
+
+if (exists("test") && test) {
+  greedy.Kmax <- 5
+  backfit <- FALSE
+} else {
+  greedy.Kmax <- 50
+  backfit <- TRUE
+}
+
 pn_res <- flash(
   strong,
   S = 1,
+  greedy.Kmax = greedy.Kmax,
   prior.family = prior.point.normal(),
   var.type = 2,
-  backfit = TRUE
+  backfit = backfit
 )
 
 snn_res <- flash(
   strong,
   S = 1,
+  greedy.Kmax = greedy.Kmax,
   prior.family = c(prior.nonnegative(), prior.point.normal()),
   var.type = 2,
-  backfit = TRUE
+  backfit = backfit
 )
 
 pn_LL <- pn_res$loadings.pm[[1]][, order(-pn_res$pve)]
@@ -56,9 +70,13 @@ plot_kset <- function(kset) {
   ggsave(paste0("../../figs/gtex", min(kset), ".png"), height = 6, width = 6)
 }
 
-plot_kset(1:6)
-plot_kset(7:12)
-plot_kset(13:18)
+if (exists("test") && test) {
+  plot_kset(1:5)
+} else {
+  plot_kset(1:6)
+  plot_kset(7:12)
+  plot_kset(13:18)
+}
 
 plt <- ggplot(tib %>% filter(PriorFamily == "point-normal",
                              Factor == 1), 
