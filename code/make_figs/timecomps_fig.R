@@ -6,6 +6,7 @@ ggplot(res, aes(x = n, y = t, col = fn)) +
   geom_point() +
   scale_x_log10() +
   scale_y_log10() +
-  labs(x = "number of observations", y = "time elapsed (s)", col = "ebnm function")
+  labs(x = "number of observations", y = "time elapsed (s)", col = "ebnm function") +
+  theme_minimal()
 
 ggsave("../../figs/timecomps.png", width = 6, height = 3.375)

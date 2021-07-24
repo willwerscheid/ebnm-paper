@@ -7,6 +7,7 @@
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=16G
+#SBATCH --exclusive
 
 module load R/3.6.1
 Rscript code.R appendix-only

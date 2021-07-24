@@ -83,8 +83,9 @@ samp_threeyr <- ebnm_threeyr$posterior_sampler(5000)
 wOBA_threeyr <- wOBA_threeyr %>% 
   bind_cols(as_tibble(t(apply(samp_threeyr, 2, hitter_quality))))
 
-wOBA_threeyr %>% summarize_at(vars(excellent:above_avg), ~sum(. > .8))
+# wOBA_threeyr %>% summarize_at(vars(excellent:above_avg), ~sum(. > .8))
 
+sink("../../output/wOBA_threeyr.txt")
 wOBA_threeyr %>% 
   filter(above_avg > .8) %>% 
   select(Name, wOBA, wOBA_sd, postmean:above_avg) %>%
@@ -92,3 +93,4 @@ wOBA_threeyr %>%
   arrange(-p_above_avg) %>%
   xtable(digits = 3) %>%
   print(include.rownames = FALSE)
+sink(NULL)
