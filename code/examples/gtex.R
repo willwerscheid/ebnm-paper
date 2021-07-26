@@ -93,4 +93,4 @@ plt <- ggplot(tib %>% filter(PriorFamily == "point-normal",
 
 my_legend <- get_legend(plt)
 legend_plt <- as_ggplot(my_legend)
-ggsave("../../figs/gtex_legend.png", height = 6, width = 6)
+ggsave("../../figs/gtex_legend.png", height = 4, width = 7)

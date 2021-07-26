@@ -16,11 +16,11 @@ if (!all(valid.args)) {
 
 if ("out-to-file" %in% args) {
   if ("appendix-only" %in% args) {
-    out_file <- file("./output/code_output_appendix.txt", open = "wt")
+    out_file <- file("../output/code_output_appendix.txt", open = "wt")
   } else if (!("incl-appendix" %in% args)) {
-    out_file <- file("./output/code_output_main.txt", open = "wt")
+    out_file <- file("../output/code_output_main.txt", open = "wt")
   } else {
-    out_file <- file("./output/code_output_all.txt", open = "wt")
+    out_file <- file("../output/code_output_all.txt", open = "wt")
   }
   sink(out_file)
   sink(out_file, type = "message")
