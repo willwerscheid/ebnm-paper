@@ -14,4 +14,4 @@ devtools::install_github("willwerscheid/flashier")
   incl-appendix: also generate output/figures from the appendix
   appendix-only: only generate output/figures from the appendix
   out-to-file: print output (including progress updates and session Info) to file
-  test: changes parameters so that the code runs really quickly
+  test: changes parameters so that the code runs quicker

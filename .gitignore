@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 data/*.csv
+output/
+figs/
