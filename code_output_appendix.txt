@@ -1,0 +1,223 @@
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.3     ✔ purrr   0.3.4
+✔ tibble  3.1.2     ✔ dplyr   1.0.7
+✔ tidyr   1.1.3     ✔ stringr 1.4.0
+✔ readr   2.0.0     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+
+Attaching package: ‘EbayesThresh’
+
+The following object is masked from ‘package:ashr’:
+
+    postmean
+
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following objects are masked from ‘package:tidyr’:
+
+    expand, pack, unpack
+
+
+Generating output...
+
+
+Comparing ebnm optimization methods.
+ This takes about 20 minutes per test.
+ 24 tests are performed.
+
+  Testing ebnm_point_normal: n = 1000 , homosked = TRUE 
+  Testing ebnm_pn_estmode: n = 1000 , homosked =  TRUE 
+  Testing ebnm_point_laplace: n = 1000 , homosked = TRUE 
+  Testing ebnm_pl_estmode: n = 1000 , homosked =  TRUE 
+  Testing ebnm_point_normal: n = 1000 , homosked = FALSE 
+  Testing ebnm_pn_estmode: n = 1000 , homosked =  FALSE 
+  Testing ebnm_point_laplace: n = 1000 , homosked = FALSE 
+  Testing ebnm_pl_estmode: n = 1000 , homosked =  FALSE 
+  Testing ebnm_point_normal: n = 10000 , homosked = TRUE 
+  Testing ebnm_pn_estmode: n = 10000 , homosked =  TRUE 
+  Testing ebnm_point_laplace: n = 10000 , homosked = TRUE 
+  Testing ebnm_pl_estmode: n = 10000 , homosked =  TRUE 
+  Testing ebnm_point_normal: n = 10000 , homosked = FALSE 
+  Testing ebnm_pn_estmode: n = 10000 , homosked =  FALSE 
+  Testing ebnm_point_laplace: n = 10000 , homosked = FALSE 
+  Testing ebnm_pl_estmode: n = 10000 , homosked =  FALSE 
+  Testing ebnm_point_normal: n = 1e+05 , homosked = TRUE 
+  Testing ebnm_pn_estmode: n = 1e+05 , homosked =  TRUE 
+  Testing ebnm_point_laplace: n = 1e+05 , homosked = TRUE 
+  Testing ebnm_pl_estmode: n = 1e+05 , homosked =  TRUE 
+  Testing ebnm_point_normal: n = 1e+05 , homosked = FALSE 
+  Testing ebnm_pn_estmode: n = 1e+05 , homosked =  FALSE 
+  Testing ebnm_point_laplace: n = 1e+05 , homosked = FALSE 
+  Testing ebnm_pl_estmode: n = 1e+05 , homosked =  FALSE 
+
+Comparing ebnm_point_laplace and EBayesThresh.
+ This takes about 20 minutes per test.
+ Six tests are performed.
+
+  Testing n = 1000 , homosked = TRUE 
+  Testing n = 1000 , homosked = FALSE 
+  Testing n = 10000 , homosked = TRUE 
+  Testing n = 10000 , homosked = FALSE 
+  Testing n = 1e+05 , homosked = TRUE 
+  Testing n = 1e+05 , homosked = FALSE 
+
+Comparing ebnm_normal_scale_mixture and ashr.
+ This takes about 30 minutes per test.
+ Six tests are performed.
+
+  Testing n = 1000 , homosked = TRUE 
+  Testing n = 1000 , homosked = FALSE 
+  Testing n = 10000 , homosked = TRUE 
+  Testing n = 10000 , homosked = FALSE 
+  Testing n = 1e+05 , homosked = TRUE 
+  Testing n = 1e+05 , homosked = FALSE 
+
+Comparing ebnm_npmle and REBayes.
+ 24 tests are performed.
+
+  Testing n = 1000 , n_gridpts = 10 , homosked = TRUE 
+  Testing n = 1000 , n_gridpts = 10 , homosked = FALSE 
+  Testing n = 1000 , n_gridpts = 30 , homosked = TRUE 
+  Testing n = 1000 , n_gridpts = 30 , homosked = FALSE 
+  Testing n = 1000 , n_gridpts = 100 , homosked = TRUE 
+  Testing n = 1000 , n_gridpts = 100 , homosked = FALSE 
+  Testing n = 1000 , n_gridpts = 300 , homosked = TRUE 
+  Testing n = 1000 , n_gridpts = 300 , homosked = FALSE 
+  Testing n = 10000 , n_gridpts = 10 , homosked = TRUE 
+  Testing n = 10000 , n_gridpts = 10 , homosked = FALSE 
+  Testing n = 10000 , n_gridpts = 30 , homosked = TRUE 
+  Testing n = 10000 , n_gridpts = 30 , homosked = FALSE 
+  Testing n = 10000 , n_gridpts = 100 , homosked = TRUE 
+  Testing n = 10000 , n_gridpts = 100 , homosked = FALSE 
+  Testing n = 10000 , n_gridpts = 300 , homosked = TRUE 
+  Testing n = 10000 , n_gridpts = 300 , homosked = FALSE 
+  Testing n = 1e+05 , n_gridpts = 10 , homosked = TRUE 
+  Testing n = 1e+05 , n_gridpts = 10 , homosked = FALSE 
+  Testing n = 1e+05 , n_gridpts = 30 , homosked = TRUE 
+  Testing n = 1e+05 , n_gridpts = 30 , homosked = FALSE 
+  Testing n = 1e+05 , n_gridpts = 100 , homosked = TRUE 
+  Testing n = 1e+05 , n_gridpts = 100 , homosked = FALSE 
+  Testing n = 1e+05 , n_gridpts = 300 , homosked = TRUE 
+  Testing n = 1e+05 , n_gridpts = 300 , homosked = FALSE 
+
+Calculating wOBA using FanGraphs data.
+
+Rows: 150 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (14): Season, wOBA, wOBAScale, wBB, wHBP, w1B, w2B, w3B, wHR, runSB, run...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 581 Columns: 12
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): Name, Team
+dbl (10): AB, BB, IBB, HBP, 1B, 2B, 3B, HR, SF, playerid
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 150 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (14): Season, wOBA, wOBAScale, wBB, wHBP, w1B, w2B, w3B, wHR, runSB, run...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 829 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): Name, Team
+dbl (2): IP, playerid
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 990 Columns: 12
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): Name, Team
+dbl (10): AB, BB, IBB, HBP, 1B, 2B, 3B, HR, SF, playerid
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 150 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (14): Season, wOBA, wOBAScale, wBB, wHBP, w1B, w2B, w3B, wHR, runSB, run...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 797 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): Name, Team
+dbl (2): IP, playerid
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 990 Columns: 12
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): Name, Team
+dbl (10): AB, BB, IBB, HBP, 1B, 2B, 3B, HR, SF, playerid
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+There were 50 or more warnings (use warnings() to see the first 50)
+
+Generating figures...
+
+
+wOBA example...
+
+Generating estimates of current ability:
+
+
+
+R version 3.5.3 (2019-03-11)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Mojave 10.14.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggpubr_0.4.0         gt_0.3.0             xtable_1.8-4        
+ [4] microbenchmark_1.4-7 REBayes_2.2          Matrix_1.2-15       
+ [7] EbayesThresh_1.4-12  ebnm_0.1-42          ashr_2.2-51         
+[10] flashier_0.2.7       forcats_0.5.1        stringr_1.4.0       
+[13] dplyr_1.0.7          purrr_0.3.4          readr_2.0.0         
+[16] tidyr_1.1.3          tibble_3.1.2         ggplot2_3.3.3       
+[19] tidyverse_1.3.1     
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0          bit64_0.9-7       lubridate_1.7.10  httr_1.4.2       
+ [5] Rmosek_9.1.0      tools_3.5.3       backports_1.1.3   utf8_1.1.4       
+ [9] R6_2.4.0          irlba_2.3.3       DBI_1.0.0         colorspace_1.4-1 
+[13] wavethresh_4.6.8  withr_2.4.2       tidyselect_1.1.0  bit_1.1-14       
+[17] curl_3.3          compiler_3.5.3    cli_3.0.1         rvest_1.0.0      
+[21] xml2_1.3.2        labeling_0.3      horseshoe_0.2.0   scales_1.1.1     
+[25] SQUAREM_2021.1    mixsqp_0.3-43     digest_0.6.18     foreign_0.8-71   
+[29] rio_0.5.26        deconvolveR_1.2-1 pkgconfig_2.0.2   htmltools_0.5.1.1
+[33] dbplyr_2.1.1      invgamma_1.1      rlang_0.4.10      readxl_1.3.1     
+[37] rstudioapi_0.13   farver_2.1.0      generics_0.0.2    jsonlite_1.7.2   
+[41] vroom_1.5.3       zip_2.1.1         car_3.0-10        magrittr_2.0.1   
+[45] Rcpp_1.0.6        munsell_0.5.0     fansi_0.4.0       abind_1.4-5      
+[49] lifecycle_1.0.0   stringi_1.4.3     carData_3.0-4     MASS_7.3-51.1    
+[53] grid_3.5.3        parallel_3.5.3    crayon_1.4.1      lattice_0.20-38  
+[57] haven_2.3.1       splines_3.5.3     hms_1.1.0         pillar_1.6.1     
+[61] ggsignif_0.6.1    reprex_2.0.0      glue_1.4.2        trust_0.1-8      
+[65] data.table_1.14.0 modelr_0.1.8      vctrs_0.3.8       tzdb_0.1.1       
+[69] cellranger_1.1.0  gtable_0.3.0      assertthat_0.2.1  openxlsx_4.2.3   
+[73] broom_0.7.6       rstatix_0.7.0     truncnorm_1.0-8   ellipsis_0.3.2   

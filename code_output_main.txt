@@ -1,0 +1,424 @@
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.3     ✔ purrr   0.3.4
+✔ tibble  3.1.2     ✔ dplyr   1.0.7
+✔ tidyr   1.1.3     ✔ stringr 1.4.0
+✔ readr   2.0.0     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+
+Attaching package: ‘EbayesThresh’
+
+The following object is masked from ‘package:ashr’:
+
+    postmean
+
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following objects are masked from ‘package:tidyr’:
+
+    expand, pack, unpack
+
+
+Generating output...
+
+
+Timing different prior families.
+ n ranges from 1e3 to 1e6.
+
+  n: 1000 
+  n: 3162.278 
+  n: 10000 
+  n: 31622.78 
+  n: 1e+05 
+  n: 316227.8 
+  n: 1e+06 
+  Done.
+
+Estimating quality of grids for different prior families.
+ n ranges from 1e2 to 1e4 for normalmix/unimix and from 30 to 3000 for npmle.
+
+  Prior family: npmle 
+    n: 100 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+    n: 1000 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+    n: 10000 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+  Prior family: normalmix 
+    n: 100 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+    n: 1000 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+    n: 10000 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+  Prior family: unimix 
+    n: 100 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+    n: 1000 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+    n: 10000 
+      trial 1 
+      trial 2 
+      trial 3 
+      trial 4 
+      trial 5 
+      trial 6 
+      trial 7 
+      trial 8 
+      trial 9 
+      trial 10 
+      trial 11 
+      trial 12 
+      trial 13 
+      trial 14 
+      trial 15 
+      trial 16 
+      trial 17 
+      trial 18 
+      trial 19 
+      trial 20 
+  Done.
+Warning message:
+In rm(ebnm_res) : object 'ebnm_res' not found
+
+Generating figures...
+
+
+Simulation study...
+
+  Sim function: point_normal 
+    trial 1 
+    trial 2 
+    trial 3 
+    trial 4 
+    trial 5 
+    trial 6 
+    trial 7 
+    trial 8 
+    trial 9 
+    trial 10 
+  Sim function: point_t 
+    trial 1 
+    trial 2 
+    trial 3 
+    trial 4 
+    trial 5 
+    trial 6 
+    trial 7 
+    trial 8 
+    trial 9 
+    trial 10 
+  Sim function: asymm_tophat 
+    trial 1 
+    trial 2 
+    trial 3 
+    trial 4 
+    trial 5 
+    trial 6 
+    trial 7 
+    trial 8 
+    trial 9 
+    trial 10 
+
+Reading GTEx files...
+
+Rows: 53 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (3): X1, X2, X3
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+Running flash...
+
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Adding factor 7 to flash object...
+Adding factor 8 to flash object...
+Adding factor 9 to flash object...
+Adding factor 10 to flash object...
+Adding factor 11 to flash object...
+Adding factor 12 to flash object...
+Adding factor 13 to flash object...
+Adding factor 14 to flash object...
+Adding factor 15 to flash object...
+Adding factor 16 to flash object...
+Adding factor 17 to flash object...
+Adding factor 18 to flash object...
+Adding factor 19 to flash object...
+Factor doesn't significantly increase objective and won't be added.
+Wrapping up...
+Done.
+Backfitting 18 factors (tolerance: 1.05e-02)...
+  Difference between iterations is within 1.0e+03...
+  Difference between iterations is within 1.0e+02...
+  Difference between iterations is within 1.0e+01...
+  Difference between iterations is within 1.0e+00...
+  Difference between iterations is within 1.0e-01...
+  Difference between iterations is within 1.0e-02...
+Wrapping up...
+Done.
+Nullchecking 18 factors...
+Done.
+Adding factor 1 to flash object...
+Adding factor 2 to flash object...
+Adding factor 3 to flash object...
+Adding factor 4 to flash object...
+Adding factor 5 to flash object...
+Adding factor 6 to flash object...
+Adding factor 7 to flash object...
+Adding factor 8 to flash object...
+Adding factor 9 to flash object...
+Adding factor 10 to flash object...
+Adding factor 11 to flash object...
+Adding factor 12 to flash object...
+Adding factor 13 to flash object...
+Adding factor 14 to flash object...
+Adding factor 15 to flash object...
+Adding factor 16 to flash object...
+Adding factor 17 to flash object...
+Adding factor 18 to flash object...
+Adding factor 19 to flash object...
+Factor doesn't significantly increase objective and won't be added.
+Wrapping up...
+Done.
+Backfitting 18 factors (tolerance: 1.05e-02)...
+  Difference between iterations is within 1.0e+04...
+  Difference between iterations is within 1.0e+03...
+  Difference between iterations is within 1.0e+02...
+  Difference between iterations is within 1.0e+01...
+  Difference between iterations is within 1.0e+00...
+  Difference between iterations is within 1.0e-01...
+  Difference between iterations is within 1.0e-02...
+Wrapping up...
+Done.
+Nullchecking 18 factors...
+Done.
+Warning messages:
+1: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+2: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+3: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+4: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+5: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+6: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+7: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+8: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+9: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+10: In stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...) :
+  NA/Inf replaced by maximum positive value
+
+
+R version 3.5.3 (2019-03-11)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Mojave 10.14.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggpubr_0.4.0         gt_0.3.0             xtable_1.8-4        
+ [4] microbenchmark_1.4-7 REBayes_2.2          Matrix_1.2-15       
+ [7] EbayesThresh_1.4-12  ebnm_0.1-44          ashr_2.2-51         
+[10] flashier_0.2.7       forcats_0.5.1        stringr_1.4.0       
+[13] dplyr_1.0.7          purrr_0.3.4          readr_2.0.0         
+[16] tidyr_1.1.3          tibble_3.1.2         ggplot2_3.3.3       
+[19] tidyverse_1.3.1     
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0           bit64_0.9-7        lubridate_1.7.10   webshot_0.5.2     
+ [5] RColorBrewer_1.1-2 httr_1.4.2         tools_3.5.3        backports_1.1.3   
+ [9] utf8_1.1.4         R6_2.4.0           irlba_2.3.3        DBI_1.0.0         
+[13] colorspace_1.4-1   wavethresh_4.6.8   withr_2.4.2        processx_3.5.2    
+[17] tidyselect_1.1.0   bit_1.1-14         curl_3.3           compiler_3.5.3    
+[21] cli_3.0.1          rvest_1.0.0        xml2_1.3.2         sass_0.4.0        
+[25] labeling_0.3       horseshoe_0.2.0    checkmate_2.0.0    scales_1.1.1      
+[29] SQUAREM_2021.1     callr_3.7.0        rappdirs_0.3.1     mixsqp_0.3-43     
+[33] digest_0.6.18      foreign_0.8-71     rio_0.5.26         deconvolveR_1.2-1 
+[37] pkgconfig_2.0.2    htmltools_0.5.1.1  dbplyr_2.1.1       invgamma_1.1      
+[41] rlang_0.4.10       readxl_1.3.1       rstudioapi_0.13    farver_2.1.0      
+[45] generics_0.0.2     jsonlite_1.7.2     vroom_1.5.3        zip_2.1.1         
+[49] car_3.0-10         magrittr_2.0.1     Rcpp_1.0.6         munsell_0.5.0     
+[53] fansi_0.4.0        abind_1.4-5        lifecycle_1.0.0    stringi_1.4.3     
+[57] carData_3.0-4      MASS_7.3-51.1      grid_3.5.3         parallel_3.5.3    
+[61] crayon_1.4.1       lattice_0.20-38    cowplot_0.9.4      haven_2.3.1       
+[65] splines_3.5.3      hms_1.1.0          ps_1.5.0           pillar_1.6.1      
+[69] ggsignif_0.6.1     reprex_2.0.0       glue_1.4.2         trust_0.1-8       
+[73] data.table_1.14.0  modelr_0.1.8       vctrs_0.3.8        tzdb_0.1.1        
+[77] cellranger_1.1.0   gtable_0.3.0       assertthat_0.2.1   openxlsx_4.2.3    
+[81] broom_0.7.6        rstatix_0.7.0      truncnorm_1.0-8    ellipsis_0.3.2    
