@@ -7,4 +7,4 @@ To reproduce results and figures:
 
 Note that the versions of all packages used are given at the end of files code_output_main.txt and code_output_appendix.txt.
 
-For the thesis chapter, use commit 432e36d94903ff9819bb518fc9430349325c7472 (July 28, 2021). 
+For the thesis chapter, use commit 1a89470ae6c759ad13d2920e46df66191e1d5be9 (September 9, 2021). 
