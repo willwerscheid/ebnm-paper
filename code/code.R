@@ -105,10 +105,6 @@ if (do_main) {
   source("./gtex.R")
 }
 
-if (do_appendix) {
-  source("./wOBA_example.R")
-}
-
 setwd("../")
 
 
