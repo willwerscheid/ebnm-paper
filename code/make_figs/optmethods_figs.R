@@ -30,10 +30,10 @@ for (next_ebnm_fn in unique(optmethods$ebnm_fn)) {
     geom_raster() +
     scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 1, 
                          limits = c(0, 4)) +
-    labs(x = "\nn", y = "optmethod\n", fill = "t vs. fastest\n(log2 scale)\n",
+    labs(x = "\nn", y = "optmethod\n", fill = "log2(time/\nfastest time)\n",
          title = plt_title) +
     facet_grid(cols = vars(prior), rows = vars(homosked))
 
-  ggsave(paste0("../../figs/optmethods_", next_ebnm_fn, ".png"), width = 6, height = 3.375,
+  ggsave(paste0("../../figs/optmethods_", next_ebnm_fn, ".png"), width = 7, height = 5,
          plot = plt)
 }

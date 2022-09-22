@@ -41,6 +41,7 @@ library(microbenchmark)
 library(xtable)
 library(gt)
 library(ggpubr)
+library(latex2exp)
 
 
 # Output:
@@ -52,8 +53,9 @@ if (!("no-output" %in% args)) {
   
   # Output needed for figures in main text:
   if (do_main) {
-    source("./time_comps.R")
     source("./gridtests.R")
+    source("./time_comps.R")
+    source("./sim_study.R")
   }
   
   # Output needed for figures in appendices:
@@ -77,9 +79,10 @@ if (!("no-figs" %in% args)) {
   setwd("./make_figs/")
   
   if (do_main) {
-    source("./smnKLdiv_fig.R")
-    source("./timecomps_fig.R")
+    source("./KLdiv_fig.R")
     source("./gridtests.R")
+    source("./timecomps_fig.R")
+    source("./sim_study.R")
   }
   
   if (do_appendix) {
@@ -98,7 +101,6 @@ if (!("no-figs" %in% args)) {
 setwd("./examples/")
 
 if (do_main) {
-  source("./sim_study.R")
   source("./eight_schools.R")
   source("./gtex.R")
 }

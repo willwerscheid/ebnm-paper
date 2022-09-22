@@ -1,96 +1,80 @@
-cat("\nReading GTEx files...\n\n")
+library(tidyverse)
+library(flashier)
 
-gtex <- readRDS(gzcon(url("https://github.com/stephenslab/gtexresults/blob/master/data/MatrixEQTLSumStats.Portable.Z.rds?raw=TRUE")))
-strong <- t(gtex$strong.z)
+url_prefix <- "https://github.com/stephenslab/gtexresults/blob/master/data/"
+gtex_url <- paste0(url_prefix, "MatrixEQTLSumStats.Portable.Z.rds?raw=TRUE")
+colors_url <- paste0(url_prefix, "GTExColors.txt?raw=TRUE")
 
-missing.tissues <- c(7, 8, 19, 20, 24, 25, 31, 34, 37)
-gtex.colors <- read_tsv("https://github.com/stephenslab/gtexresults/blob/master/data/GTExColors.txt?raw=TRUE", col_names = FALSE, )
-gtex.colors <- gtex.colors[-missing.tissues, ]
-gtex.colors <- gtex.colors %>% pull(X2)
-names(gtex.colors) <- rownames(strong)
+gtex <- readRDS(gzcon(url(gtex_url)))
+strong <- t(gtex$strong.z) # Dataset used by Urbut et al. and Wang & Stephens.
 
-cat("\nRunning flash...\n\n")
+gtex.colors <- read_tsv(colors_url, col_names = c("Tissue", "Hex", "RGB")) %>%
+  mutate(Tissue = str_remove_all(Tissue, "[\\(\\)\\-]")) %>%
+  mutate(Tissue = str_replace_all(Tissue, " +", "_")) %>%
+  pull(Hex, name = Tissue)
+gtex.colors <- gtex.colors[rownames(strong)]
 
-if (exists("test") && test) {
-  greedy.Kmax <- 5
-  backfit <- FALSE
-} else {
-  greedy.Kmax <- 50
-  backfit <- TRUE
-}
-
+# Point-normal factorization.
 pn_res <- flash(
   strong,
   S = 1,
-  greedy.Kmax = greedy.Kmax,
-  prior.family = prior.point.normal(),
+  greedy.Kmax = 50,
+  prior.family = as.prior(ebnm::ebnm_point_normal),
   var.type = 2,
-  backfit = backfit
+  backfit = TRUE
 )
 
+# Semi-nonnegative factorization.
 snn_res <- flash(
   strong,
   S = 1,
-  greedy.Kmax = greedy.Kmax,
-  prior.family = c(prior.nonnegative(), prior.point.normal()),
+  greedy.Kmax = 50,
+  prior.family = c(
+    as.prior(ebnm::ebnm_point_exponential, sign = 1), 
+    as.prior(ebnm::ebnm_point_normal)
+  ),
   var.type = 2,
-  backfit = backfit
+  backfit = TRUE
 )
 
+# Extract loadings (tissues).
 pn_LL <- pn_res$loadings.pm[[1]][, order(-pn_res$pve)]
 snn_LL <- snn_res$loadings.pm[[1]][, order(-snn_res$pve)]
 
-# Flip loadings where necessary.
+# Flip loadings so that the largest loadings are positive.
 pn_sign <- 2L * (apply(pn_LL, 2, max) > -apply(pn_LL, 2, min)) - 1
 pn_LL <- t(t(pn_LL) * pn_sign)
 
-# Rearrange to make the factors line up:
+# Rearrange factors to make side-by-side comparison easier.
 LL_cor <- abs(cor(pn_LL, snn_LL))
-snn_LL <- snn_LL[, apply(LL_cor, 1, which.max)]
+pn_LL <- pn_LL[, apply(LL_cor, 2, which.max)]
 
 colnames(pn_LL) <- paste0("Factor", 1:ncol(pn_LL))
 colnames(snn_LL) <- paste0("Factor", 1:ncol(snn_LL))
-tib <- as_tibble(pn_LL) %>% add_column(PriorFamily = "point-normal") %>%
-  bind_rows(as_tibble(snn_LL) %>% add_column(PriorFamily = "semi-nonnegative"))
+
+pn_tib <- as_tibble(pn_LL) %>% add_column(PriorFamily = "point-normal")
+snn_tib <- as_tibble(snn_LL) %>% add_column(PriorFamily = "semi-nonnegative")
+tib <- pn_tib %>% bind_rows(snn_tib)
 
 tib <- tib %>%
   mutate(Tissue = rep(rownames(strong), 2)) %>%
-  pivot_longer(-c(PriorFamily, Tissue), names_to = "Factor", values_to = "Loading") %>%
+  pivot_longer(
+    -c(PriorFamily, Tissue), names_to = "Factor", values_to = "Loading"
+  ) %>%
   mutate(Factor = as.numeric(str_remove(Factor, "Factor")))
 
-plot_kset <- function(kset) {
-  plt <- ggplot(tib %>% filter(Factor %in% kset), aes(x = Tissue, y = Loading, fill = Tissue)) +
-    geom_col() +
-    facet_grid(rows = vars(Factor), cols = vars(PriorFamily)) +
-    scale_fill_manual(values = gtex.colors) +
-    theme_minimal() + 
-    labs(x = "", y = "") +
-    theme(legend.position = "none",
-          axis.text.x = element_blank())
-  ggsave(paste0("../../figs/gtex", min(kset), ".png"), height = 6, width = 6)
-}
-
-if (exists("test") && test) {
-  plot_kset(1:5)
-} else {
-  plot_kset(1:6)
-  plot_kset(7:12)
-  plot_kset(13:18)
-}
-
-plt <- ggplot(tib %>% filter(PriorFamily == "point-normal",
-                             Factor == 1), 
-              aes(x = Tissue, y = Loading, fill = Tissue)) +
+plt <- ggplot(tib, aes(x = Tissue, y = Loading, fill = Tissue)) +
   geom_col() +
+  facet_grid(rows = vars(Factor), cols = vars(PriorFamily)) +
   scale_fill_manual(values = gtex.colors) +
+  scale_y_continuous(breaks = c(0, 0.5, 1)) +
   theme_minimal() + 
-  labs(x = "", y = "") +
-  guides(fill = guide_legend(ncol = 3)) +
+  labs(x = "\nTissue", y = "Loading (l2-normalized)\n") +
+  guides(fill = guide_legend(ncol = 4)) +
   theme(legend.position = "bottom",
+        legend.key.size = unit(0.5, "lines"),
         legend.text = element_text(size = 6.5),
         legend.title = element_blank(),
         axis.text.x = element_blank())
 
-my_legend <- get_legend(plt)
-legend_plt <- as_ggplot(my_legend)
-ggsave("../../figs/gtex_legend.png", height = 4, width = 7)
+ggsave("../../figs/gtex.png", height = 10, width = 7.5)

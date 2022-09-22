@@ -1,21 +1,23 @@
 ## Timing different prior families.
 
-cat("\nTiming different prior families.\n",
-    "n ranges from 1e3 to 1e6.\n\n")
+set.seed(666)
+
+if (exists("test") && test) {
+  ns <- 10^seq(2, 3, by = 0.5)
+  mb_times <- rep(2, length(ns))
+} else {
+  ns <- 10^seq(2, 5, by = 0.5)
+  mb_times <- c(50, 50, 20, 20, 10, 10, 3)
+}
+
+cat(paste0("\nTiming different prior families.\n",
+           "  n ranges from ", min(ns), " to ", max(ns), ".\n\n"))
 
 # Mixture of point mass at zero and t_5
 point_t <- function(n) {
   samp <- 1.5 * rt(n, df = 5)
   samp <- samp * sample(c(0, 1), n, replace = TRUE, prob = c(0.5, 0.5))
   return(samp + rnorm(n))
-}
-
-if (exists("test") && test) {
-  ns <- 10^seq(2, 3, by = 0.5)
-  mb_times <- rep(2, length(ns))
-} else {
-  ns <- 10^seq(3, 6, by = 0.5)
-  mb_times <- c(20, 20, 10, 10, 3, 1, 1)
 }
 
 ebnm_fns <- c("ebnm_normal",
@@ -28,7 +30,7 @@ ebnm_fns <- c("ebnm_normal",
               "ebnm_npmle",
               "ebnm_horseshoe")
 
-set.seed(1)
+t_begin <- Sys.time()
 res <- tibble()
 for (i in 1:length(ns)) {
   n <- ns[i]
@@ -37,7 +39,7 @@ for (i in 1:length(ns)) {
   x <- point_t(n)
   
   test_fns <- ebnm_fns
-  if (n == 10^6) {
+  if (n >= 10^6) {
     test_fns <- setdiff(ebnm_fns, c("ebnm_npmle", "ebnm_horseshoe"))
   } else {
     test_fns <- ebnm_fns
@@ -60,7 +62,9 @@ for (i in 1:length(ns)) {
     ))
 }
 
-cat("  Done.\n")
+t_elapsed <- Sys.time() - t_begin
+cat("  Done. Time elasped:",
+    round(as.numeric(t_elapsed, units = "mins"), 1), "minutes.\n")
 
 res <- res %>%
   mutate(fn = fct_relevel(fn, rev(ebnm_fns)))

@@ -63,7 +63,7 @@ one_mb <- function(n, prior_family, homosked, mb_times, seed) {
     theirres <- ebayesthresh(x = dat$x, sdev = dat$s, a = NA, threshrule = "mean", 
                              universalthresh = FALSE, verbose = TRUE),
     ourres <- ebnm_point_laplace(x = dat$x, s = dat$s, optmethod = "nohess_nlm", 
-                                 control = list(gradtol = sqrt(.Machine$double.eps), stepmax = 5)),
+                                 control = list(gradtol = sqrt(.Machine$double.eps))),
     times = mb_times
   )
   mb_res <- summary(mb_res)
@@ -80,8 +80,6 @@ one_mb <- function(n, prior_family, homosked, mb_times, seed) {
 }
 
 one_n <- function(n, mb_times, seeds) {
-  optmethods <- c("ebayesthresh", "ebnm_pl")
-  
   all_res <- tibble()
   
   for (seed in seeds) {

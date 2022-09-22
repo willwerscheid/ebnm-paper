@@ -14,7 +14,7 @@ ggplot(rebayes, aes(x = n, y = package, fill = t_penalty)) +
   geom_raster() +
   scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 1, 
                        limits = c(0, 4)) +
-  labs(x = "\nn", y = "package\n", fill = "t vs. fastest\n(log2 scale)\n") +
+  labs(x = "\nn", y = "package\n", fill = "log2(time/\nfastest time)\n") +
   facet_grid(cols = vars(n_gridpts), rows = vars(homosked))
   
-ggsave("../../figs/rebayes.png", width = 6, height = 3.375)
+ggsave("../../figs/rebayes.png", width = 7, height = 5)
