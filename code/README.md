@@ -2,7 +2,7 @@
 
 1. Install the necessary packages:
 
-install.packages(c("tidyverse", "ashr", "EbayesThresh", "REBayes", "microbenchmark", "xtable", "gt", "ggpubr", "devtools"))
+install.packages(c("tidyverse", "ashr", "EbayesThresh", "REBayes", "microbenchmark", "xtable", "gt", "ggpubr", "devtools", "latex2exp", "webshot2"))
 devtools::install_github("stephenslab/ebnm")
 devtools::install_github("willwerscheid/flashier")
 
