@@ -53,7 +53,6 @@ if (!("no-output" %in% args)) {
   
   # Output needed for figures in main text:
   if (do_main) {
-    source("./gridtests.R")
     source("./time_comps.R")
     source("./sim_study.R")
   }
@@ -64,7 +63,6 @@ if (!("no-output" %in% args)) {
     source("./ebayesthresh.R")
     source("./ebnm_v_ashr.R")
     source("./rebayes.R")
-    source("./wOBA.R")
   }
   
   setwd("../")
@@ -79,8 +77,6 @@ if (!("no-figs" %in% args)) {
   setwd("./make_figs/")
   
   if (do_main) {
-    source("./KLdiv_fig.R")
-    source("./gridtests.R")
     source("./timecomps_fig.R")
     source("./sim_study.R")
   }
