@@ -15,31 +15,23 @@ gtex.colors <- read_tsv(colors_url, col_names = c("Tissue", "Hex", "RGB")) %>%
 gtex.colors <- gtex.colors[rownames(strong)]
 
 # Point-normal factorization.
-pn_res <- flash(
-  strong,
-  S = 1,
-  greedy.Kmax = 50,
-  prior.family = as.prior(ebnm::ebnm_point_normal),
-  var.type = 2,
-  backfit = TRUE
-)
+pn_res <- flash.init(strong, S = 1, var.type = 2) %>%
+  flash.add.greedy(Kmax = 50, ebnm.fn = ebnm::ebnm_point_normal) %>%
+  flash.backfit() %>%
+  flash.nullcheck()
 
 # Semi-nonnegative factorization.
-snn_res <- flash(
-  strong,
-  S = 1,
-  greedy.Kmax = 50,
-  prior.family = c(
-    as.prior(ebnm::ebnm_point_exponential, sign = 1), 
-    as.prior(ebnm::ebnm_point_normal)
-  ),
-  var.type = 2,
-  backfit = TRUE
-)
+snn_res <- flash.init(strong, S = 1, var.type = 2) %>%
+  flash.add.greedy(
+    Kmax = 50, 
+    ebnm.fn = c(ebnm::ebnm_point_exponential, ebnm::ebnm_point_normal),
+    init.fn = function(f) init.fn.default(f, dim.signs = c(1, 0))) %>%
+  flash.backfit() %>%
+  flash.nullcheck()
 
 # Extract loadings (tissues).
-pn_LL <- pn_res$loadings.pm[[1]][, order(-pn_res$pve)]
-snn_LL <- snn_res$loadings.pm[[1]][, order(-snn_res$pve)]
+pn_LL <- pn_res$L.pm[, order(-pn_res$pve)]
+snn_LL <- snn_res$L.pm[, order(-snn_res$pve)]
 
 # Flip loadings so that the largest loadings are positive.
 pn_sign <- 2L * (apply(pn_LL, 2, max) > -apply(pn_LL, 2, min)) - 1
