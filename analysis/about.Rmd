@@ -1,8 +1,0 @@
----
-title: "About"
-output:
-  workflowr::wflow_html:
-    toc: false
----
-
-Code and instructions for generating figures for the empirical Bayes normal means chapter of the thesis and subsequent paper.
