@@ -5,4 +5,4 @@
 .DS_Store
 figs/
 output/*
-!output/README.md
+!output/code_output*
