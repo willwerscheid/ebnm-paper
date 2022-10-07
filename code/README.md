@@ -6,7 +6,11 @@ install.packages(c("tidyverse", "ashr", "EbayesThresh", "REBayes", "microbenchma
 devtools::install_github("stephenslab/ebnm")
 devtools::install_github("willwerscheid/flashier")
 
-2. (Appendix only): Install MOSEK and acquire MOSEK license (http://www.mosek.com).
+2. (Appendix only): Install MOSEK and acquire MOSEK license (http://www.mosek.com). Then install Rmosek within R as follows:
+
+install.packages("Rmosek")
+Rmosek::mosek_attachbuilder("<MSKHOME>/mosek/<MSKVERSION>/tools/platform/<PLATFORM>/bin")
+install.rmosek()
 
 3. Run code.R from this directory. Command-line options include:
   no-output: omit output
