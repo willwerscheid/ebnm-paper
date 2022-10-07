@@ -88,48 +88,47 @@ do_test <- function(n, sim_fn, homosked, ebnm_fn, nsim, mbtimes = 5L) {
     
     llik <- numeric(6)
     mb_res <- microbenchmark(
-      llik[1] <- unlist(
-        do.call(ebnm_fn, 
-                c(ebnm_args, 
-                  list(optmethod = "nlm", 
-                       control = list(gradtol = sqrt(.Machine$double.eps)))))
-      ),
-      llik[2] <- unlist(
-        do.call(ebnm_fn, 
-                c(ebnm_args, 
-                  list(optmethod = "nohess_nlm", 
-                       control = list(gradtol = sqrt(.Machine$double.eps)))))
-      ),
-      llik[3] <- unlist(
-        do.call(ebnm_fn, 
-                c(ebnm_args, 
-                  list(optmethod = "nograd_nlm", 
-                       control = list(gradtol = sqrt(.Machine$double.eps)))))
-      ),
+      llik[1] <- do.call(
+        ebnm_fn, 
+        c(ebnm_args, 
+          list(optmethod = "nlm", 
+               control = list(gradtol = sqrt(.Machine$double.eps))))
+      )[["log_likelihood"]],
+      llik[2] <- do.call(
+        ebnm_fn, 
+        c(ebnm_args, 
+          list(optmethod = "nohess_nlm", 
+               control = list(gradtol = sqrt(.Machine$double.eps))))
+      )[["log_likelihood"]],
+      llik[3] <- do.call(
+        ebnm_fn, 
+        c(ebnm_args, 
+          list(optmethod = "nograd_nlm", 
+               control = list(gradtol = sqrt(.Machine$double.eps))))
+      )[["log_likelihood"]],
       llik[4] <- tryCatch(
-        unlist(
-          do.call(ebnm_fn,
-                  c(ebnm_args,
-                    list(optmethod = "lbfgsb",
-                         control = list(pgtol = sqrt(.Machine$double.eps)))))
-        ),
+        do.call(
+          ebnm_fn,
+          c(ebnm_args,
+            list(optmethod = "lbfgsb",
+                 control = list(pgtol = sqrt(.Machine$double.eps))))
+        )[["log_likelihood"]],
         error = function(x) -Inf
       ),
       llik[5] <- tryCatch(
-        unlist(
-          do.call(ebnm_fn,
-                  c(ebnm_args,
-                    list(optmethod = "nograd_lbfgsb",
-                         control = list(pgtol = sqrt(.Machine$double.eps)))))
-        ),
+        do.call(ebnm_fn,
+                c(ebnm_args,
+                  list(optmethod = "nograd_lbfgsb",
+                       control = list(pgtol = sqrt(.Machine$double.eps))))
+        )[["log_likelihood"]],
         error = function(x) -Inf
       ),
-      llik[6] <- unlist(
-        do.call(ebnm_fn, 
-                c(ebnm_args,
-                  list(optmethod = "trust",
-                       control = list(fterm = sqrt(.Machine$double.eps)))))
-      ),
+      llik[6] <- do.call(
+        ebnm_fn, 
+        c(ebnm_args,
+          list(optmethod = "trust",
+               control = list(fterm = sqrt(.Machine$double.eps))))
+      )[["log_likelihood"]],
       times = mbtimes
     )
     
