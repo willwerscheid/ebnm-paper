@@ -37,6 +37,10 @@ snn_LL <- snn_res$L.pm[, order(-snn_res$pve)]
 pn_sign <- 2L * (apply(pn_LL, 2, max) > -apply(pn_LL, 2, min)) - 1
 pn_LL <- t(t(pn_LL) * pn_sign)
 
+# l1-normalize loadings.
+pn_LL <- scale(pn_LL, center = FALSE, scale = apply(pn_LL, 2, max))
+snn_LL <- scale(snn_LL, center = FALSE, scale = apply(snn_LL, 2, max))
+
 # Rearrange factors to make side-by-side comparison easier.
 LL_cor <- abs(cor(pn_LL, snn_LL))
 pn_LL <- pn_LL[, apply(LL_cor, 2, which.max)]
@@ -61,7 +65,7 @@ plt <- ggplot(tib, aes(x = Tissue, y = Loading, fill = Tissue)) +
   scale_fill_manual(values = gtex.colors) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   theme_minimal() + 
-  labs(x = "\nTissue", y = "Loading (l2-normalized)\n") +
+  labs(x = "\nTissue", y = "Loading (l1-normalized)\n") +
   guides(fill = guide_legend(ncol = 4)) +
   theme(legend.position = "bottom",
         legend.key.size = unit(0.5, "lines"),
