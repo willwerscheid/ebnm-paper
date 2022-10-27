@@ -23,7 +23,7 @@ do_test <- function(n, homosked, nsim, n_gridpts, mbtimes = 5L) {
     if (homosked) {
       s <- 1
     } else {
-      s <- sqrt(rexp(n))
+      s <- sqrt(1 + rexp(n))
     }
     
     x <- pl_sim(n = n, s = s)
@@ -78,7 +78,7 @@ for (n in ns) {
     if (exists("test") && test) {
       nsim <- 10
     } else {
-      nsim <- min(100, ceiling(max(ngridpts) * max(ns) / (ngridpt * n)))
+      nsim <- max(2, min(100, ceiling(max(ngridpts) * max(ns) / (ngridpt * n))))
     }
     
     for (homosked in c(TRUE, FALSE)) {

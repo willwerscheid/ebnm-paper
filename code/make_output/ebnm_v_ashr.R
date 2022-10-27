@@ -33,7 +33,7 @@ do_test <- function(n, sim_fn, homosked, nsim, mbtimes = 5L) {
     if (homosked) {
       s <- 1
     } else {
-      s <- sqrt(rexp(n))
+      s <- sqrt(1 + rexp(n))
     }
     
     x <- do.call(sim_fn, list(n = n, s = s))
