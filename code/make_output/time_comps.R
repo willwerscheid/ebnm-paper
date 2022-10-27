@@ -70,4 +70,4 @@ res <- res %>%
   mutate(fn = fct_relevel(fn, rev(ebnm_fns)))
 
 saveRDS(res, "../../output/timecomps.rds")
-rm(ebnm_res)
+rm(res)
