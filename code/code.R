@@ -74,6 +74,8 @@ if (!("no-output" %in% args)) {
 if (!("no-figs" %in% args)) {
   cat("\nGenerating figures...\n\n")
   
+  system("if [ ! -d ../figs ]; then mkdir ../figs; fi")
+  
   setwd("./make_figs/")
   
   if (do_main) {

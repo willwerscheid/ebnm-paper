@@ -1,8 +1,5 @@
 # ebnm-paper
 
-To reproduce results and figures:
-1. Download data (see README in data folder).
-2. Create empty folders "output" and "figs".
-3. Run code by following the instructions in the "code" folder.
+To reproduce results and figures, run code by following the instructions in the "code" folder.
 
-Note that the versions of all packages used are given at the end of files code_output_main.txt and code_output_appendix.txt.
+The versions of all packages used are given at the end of file `output/code_output_all.txt` via a call to `sessionInfo()`.
