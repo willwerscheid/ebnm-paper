@@ -47,7 +47,7 @@ Timing different prior families.
   n: 10000 
   n: 31622.78 
   n: 1e+05 
-  Done. Time elasped: 18.2 minutes.
+  Done. Time elasped: 18.7 minutes.
 
 Simulation study...
 
@@ -168,7 +168,7 @@ There were 50 or more warnings (use warnings() to see the first 50)
 
 Generating figures...
 
-file:////var/folders/zg/j1zj39ps20xgcd2gzblwcp400000gq/T//Rtmp5RawZ3/file9e6934a4f674.html screenshot completed
+file:////var/folders/zg/j1zj39ps20xgcd2gzblwcp400000gq/T//RtmpKMAbIP/file3c4b99d5d0.html screenshot completed
 Rows: 53 Columns: 3
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: "\t"
