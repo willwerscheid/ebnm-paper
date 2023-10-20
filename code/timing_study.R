@@ -73,7 +73,7 @@ cat("  Done. Time elapsed:",
 res <- res %>%
   mutate(expr = fct_relevel(expr, rev(ebnm_fns)))
 
-saveRDS(res, "../output/timecomps.rds")
+saveRDS(res, "./output/timecomps.rds")
 
 summary_res <- res %>%
   mutate(time = time / 1e9) %>%
@@ -85,7 +85,7 @@ summary_res <- res %>%
   ) 
 
 lvls <- summary_res %>%
-  filter(n == max(summary_res$n)) %>%
+  filter(n == ns[8]) %>%
   arrange(-mean) %>%
   pull(expr) %>%
   as.character()
@@ -104,4 +104,4 @@ ggplot(summary_res, aes(x = n, y = mean, color = expr)) +
   labs(x = "\nNumber of observations", y = "Time elapsed (s)\n", col = "Prior Family") +
   theme_minimal()
 
-ggsave("../figs/timecomps.pdf", width = 6, height = 3.375)
+ggsave("./figs/timecomps.pdf", width = 6, height = 3.375)

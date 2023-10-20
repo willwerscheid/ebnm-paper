@@ -7,3 +7,4 @@
 figs/
 output/*
 !output/code_output*
+!output/timecomps.rds
