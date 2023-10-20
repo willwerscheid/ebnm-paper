@@ -161,16 +161,3 @@ plot(flash_snn, include_scree = FALSE, pm_colors = gtex_colors) +
         legend.key.size = unit(6, "points"),
         legend.position = "bottom") 
 ggsave("../figs/gtex_pe.pdf", height = 8, width = 8, units = "in")
-
-# Code to generate colors legend (not included in paper):
-color_df <- data.frame(
-  Tissue = forcats::fct_rev(names(gtex_colors)),
-  Color = gtex_colors
-)
-ggplot(color_df, aes(x = 0, y = Tissue)) +
-  geom_tile(aes(fill = Color)) +
-  geom_text(aes(label = Tissue)) +
-  scale_fill_identity() +
-  theme_void()
-ggsave("../figs/gtex_colors.pdf", height = 6, width = 3.5, units = "in")
-
