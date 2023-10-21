@@ -1,3 +1,43 @@
+###### HANDLE ARGS ----------------------------------------------------
+
+args <- commandArgs(trailingOnly = TRUE)
+
+valid.args <- args %in% c(
+  "out-to-file", 
+  "test"
+)
+if (!all(valid.args)) {
+  stop("Command line argument ",
+       min(which(!valid.args)),
+       " not recognized.")
+}
+
+test <- "test" %in% args
+
+if ("out-to-file" %in% args) {
+  fname <- "../output/code_output_appendix"
+  if (test) {
+    fname <- paste0(fname, "_test")
+  } 
+  out_file <- file(paste0(fname, ".txt"), open = "wt")
+  sink(out_file)
+  sink(out_file, type = "message")
+}
+
+system("if [ ! -d ../figs ]; then mkdir ../figs; fi")
+
+
+###### REQUIRED PACKAGES ----------------------------------------------
+
+library(tidyverse)
+library(ebnm)
+library(flashier)
+library(microbenchmark)
+library(EbayesThresh)
+library(ashr)
+library(REBayes)
+
+
 ###### OPTMETHODS -----------------------------------------------------
 
 cat("\nComparing ebnm optimization methods.\n",
@@ -333,7 +373,7 @@ do_test <- function(n, sim_fn, homosked, nsim, mbtimes = 5L) {
 set.seed(666)
 all_res <- tibble()
 if (exists("test") && test) {
-  nsim <- 10^(2:3)
+  ns <- 10^(2:3)
 } else {
   ns <- 10^(3:5)
 }
@@ -602,8 +642,7 @@ saveRDS(all_res, "../output/rebayes.rds")
 
 # Generate figure:
 
-rebayes <- readRDS("../output/rebayes.rds")
-rebayes <- rebayes %>%
+rebayes <- all_res %>%
   mutate(homosked = ifelse(homosked, "homoskedastic", "heteroskedastic"),
          homosked = fct_relevel(homosked, "homoskedastic", "heteroskedastic")) %>%
   group_by(n, n_gridpts, homosked) %>%
@@ -621,3 +660,9 @@ ggplot(rebayes, aes(x = n, y = package, fill = t_penalty)) +
   theme(axis.text.x = element_text(size = 7))
 
 ggsave("../figs/rebayes.pdf", width = 7, height = 5)
+
+
+###### SESSION INFO ---------------------------------------------------
+
+cat("\n\n")
+sessionInfo()
