@@ -208,7 +208,7 @@ cat("  Done. Time elapsed:",
 ```
 
 ```
-##   Done. Time elapsed: 5.3 minutes.
+##   Done. Time elapsed: 5.4 minutes.
 ```
 
 ```r
@@ -999,7 +999,7 @@ t_n[3]
 
 ```
 ## elapsed 
-##   0.817
+##   0.809
 ```
 
 ```r
@@ -1067,7 +1067,7 @@ t_pn[3]
 
 ```
 ## elapsed 
-##   4.325
+##   4.367
 ```
 
 ```r
@@ -1137,7 +1137,7 @@ t_snn[3]
 
 ```
 ## elapsed 
-##     2.6
+##    2.69
 ```
 
 ```r
