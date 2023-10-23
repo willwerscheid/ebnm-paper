@@ -5,6 +5,4 @@
 .DS_Store
 *.Rproj
 figs/
-output/*
-!output/code_output.txt
-!output/code_appendix.txt
+output/code_output*
