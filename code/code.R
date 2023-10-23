@@ -350,8 +350,11 @@ tbl <- res_table %>%
     locations = cells_body()
   )
 
+print(tbl)
+
 gtsave(tbl, paste0("../figs/simres", fname_suffix, ".htm"))
-# convert using Adobe: width 9", height 5", margins 0.1", landscape, scale to fit
+
+# Convert using Adobe: width 9", height 5", margins 0.1", landscape, scale to fit
 
 
 ###### EXAMPLES -------------------------------------------------------
@@ -427,8 +430,6 @@ fit_npmle <- ebnm(x, s, prior_family = "npmle")
 fit_npmle <- ebnm(x, s, prior_family = "npmle", 
                   control = list(verbose = TRUE))
 
-plot(fit_normal, fit_unimodal, fit_npmle, incl_cdf = TRUE, subset = top50)
-
 # Slightly different from the text (need to show one plot at a time):
 plot(
   fit_normal, fit_unimodal, fit_npmle,
@@ -494,6 +495,7 @@ t_n <- system.time({
 })
 t_n[3]
 
+# Different from text (we add a legend here):
 plot(flash_n, include_scree = FALSE, pm_colors = gtex_colors) +
   ggtitle("") +
   guides(fill = guide_legend(title = "", nrow = 16)) +
@@ -507,6 +509,7 @@ t_pn <- system.time({
 })
 t_pn[3]
 
+# Different from text (we add a legend here):
 plot(flash_pn, include_scree = FALSE, pm_colors = gtex_colors) +
   ggtitle("") +
   guides(fill = guide_legend(title = "", nrow = 16)) +
@@ -522,6 +525,7 @@ t_snn <- system.time({
 })
 t_snn[3]
 
+# Different from text (we add a legend here):
 plot(flash_snn, include_scree = FALSE, pm_colors = gtex_colors) +
   ggtitle("") +
   guides(fill = guide_legend(title = "", nrow = 16)) +

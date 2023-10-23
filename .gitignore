@@ -6,5 +6,5 @@
 *.Rproj
 figs/
 output/*
-!output/code_output*
-!output/timecomps.rds
+!output/code_output.txt
+!output/code_appendix.txt
