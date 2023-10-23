@@ -26,7 +26,7 @@ if ("out-to-file" %in% args) {
   sink(out_file, type = "message")
 }
 
-system("if [ ! -d ../figs ]; then mkdir ../figs; fi")
+# system("if [ ! -d ../figs ]; then mkdir ../figs; fi")
 
 
 ###### REQUIRED PACKAGES ----------------------------------------------
