@@ -3,7 +3,7 @@
 args <- commandArgs(trailingOnly = TRUE)
 
 valid.args <- args %in% c(
-  "out-to-file", 
+  "out-to-file",
   "test",
   "full"
 )
@@ -20,7 +20,7 @@ if ("out-to-file" %in% args) {
   fname <- "../output/code_output"
   if (test) {
     fname <- paste0(fname, "_test")
-  } 
+  }
   out_file <- file(paste0(fname, ".txt"), open = "wt")
   sink(out_file)
   sink(out_file, type = "message")
@@ -31,10 +31,10 @@ if ("out-to-file" %in% args) {
 
 ###### REQUIRED PACKAGES ----------------------------------------------
 
-library(tidyverse)
-library(ebnm)
-library(flashier)
-library(gt)
+library("tidyverse")
+library("ebnm")
+library("flashier")
+library("gt")
 
 # Also needed: microbenchmark, scales, Rtsne, ggrepel, cowplot
 
@@ -86,20 +86,20 @@ res <- tibble()
 for (i in 1:length(ns)) {
   n <- ns[i]
   cat("  n:", n, "\n")
-  
+
   x <- point_t(n)
-  
+
   test_fns <- ebnm_fns
-  
+
   mb_tests <- lapply(test_fns, function(fn) {
     bquote(do.call(.(fn), list(x = x, s = 1)))
   })
-  
+
   mb_res <- microbenchmark::microbenchmark(
     list = mb_tests,
     times = mb_times[i]
   )
-  
+
   res <- res %>%
     bind_rows(
       tibble(mb_res) %>%
@@ -127,7 +127,7 @@ summary_res <- res %>%
     mean = mean(time),
     lowerq = quantile(time, probs = 0.1),
     upperq = quantile(time, probs = 0.9)
-  ) 
+  )
 
 lvls <- summary_res %>%
   filter(n == ns[8]) %>%
@@ -146,12 +146,12 @@ ggplot(summary_res, aes(x = n, y = mean, color = expr)) +
   scale_x_log10() +
   scale_y_log10() +
   scale_color_brewer(palette = "Set1") +
-  labs(x = "\nNumber of observations", 
-       y = "Runtime (s)\n", 
+  labs(x = "\nNumber of observations",
+       y = "Runtime (s)\n",
        col = "Prior family") +
   theme_minimal()
 
-ggsave(paste0("../figs/timecomps", fname_suffix, ".pdf"), 
+ggsave(paste0("../figs/timecomps", fname_suffix, ".pdf"),
        width = 6, height = 3.375)
 
 
@@ -162,18 +162,18 @@ cat("\nSIMULATION STUDY...\n\n")
 #### Simulation functions ----
 
 normal <- function(n) {
-  samp <- rnorm(n, sd = 2) 
+  samp <- rnorm(n, sd = 2)
   return(list(theta = samp, x = samp + rnorm(n)))
 }
 
 point_t <- function(n) {
-  samp <- 1.5 * rt(n, df = 5) 
+  samp <- 1.5 * rt(n, df = 5)
   samp <- samp * sample(c(0, 1), n, replace = TRUE, prob = c(0.8, 0.2))
   return(list(theta = samp, x = samp + rnorm(n)))
 }
 
 asymm_tophat <- function(n) {
-  samp <- runif(n, -5, 10) 
+  samp <- runif(n, -5, 10)
   return(list(theta = samp, x = samp + rnorm(n)))
 }
 
@@ -219,30 +219,30 @@ for (sim_fn in sim_fns) {
     for (ebnm_fn in ebnm_fns) {
       ebnm_res[[ebnm_fn]] <- do.call(ebnm_fn, list(x = sim_data$x, s = 1, output = output))
     }
-    
+
     llik <- sapply(ebnm_res, logLik)
     llik <- llik - max(llik, na.rm = TRUE)
-    
+
     rmse <- sapply(ebnm_res, function(res) {
       return(sqrt(mean((coef(res) - sim_data$theta)^2)))
     })
-    
+
     confint_cov <- sapply(ebnm_res, function(res) {
       zz <- capture.output({ # Capture horseshoe output
         ci <- confint(res, level = 0.9)
       })
       return(1 - mean(sim_data$theta < ci[, 1] | sim_data$theta > ci[, 2]))
     })
-    
+
     tib <- tibble(
       SimFn = sim_fn,
-      Function = names(llik), 
-      LogLikelihood = llik, 
-      RMSE = rmse, 
+      Function = names(llik),
+      LogLikelihood = llik,
+      RMSE = rmse,
       ConfIntCov = confint_cov,
       SimNumber = i
     )
-    
+
     all_res <- all_res %>%
       bind_rows(tib)
   }
@@ -273,12 +273,12 @@ res_table <- all_res %>%
     CICov = ConfIntCov
   ) %>%
   pivot_wider(
-    names_from = SimFn, 
+    names_from = SimFn,
     values_from = LogLik:CICov,
     names_sep = "XXX"
   )
 
-lbls <- c("Prior Family", rep(c("Normal", "Point-t", "Tophat"), times = 3))
+lbls <- c("Prior family", rep(c("Normal", "Point-t", "Tophat"), times = 3))
 names(lbls) <- names(res_table)
 lbls <- as.list(lbls)
 
@@ -310,7 +310,7 @@ ci_pal <- function(x) {
 tbl <- res_table %>%
   gt() %>%
   tab_spanner(
-    label = "Log likelihood",
+    label = "Relative log-likelihood",
     columns = starts_with("Log")
   ) %>%
   tab_spanner(
@@ -327,7 +327,7 @@ tbl <- res_table %>%
   ) %>%
   fmt_number(
     columns = starts_with(c("RMSE", "CI")),
-    n_sigfig = 3 
+    n_sigfig = 3
   ) %>%
   data_color(
     columns = starts_with("Log"),
@@ -354,7 +354,7 @@ print(tbl)
 
 gtsave(tbl, paste0("../figs/simres", fname_suffix, ".htm"))
 
-# Convert using Adobe: width 9", height 5", margins 0.1", landscape, scale to fit
+# Convert using Adobe (Create... > PDF from Web Page...)
 
 
 ###### EXAMPLES -------------------------------------------------------
@@ -363,12 +363,12 @@ cat("\nEXAMPLES...\n\n")
 
 #### wOBA (part I) ----
 
-library(ebnm)
-data(wOBA)
+library("ebnm")
+data("wOBA")
 nrow(wOBA)
 head(wOBA)
 
-library(ggplot2)
+library("ggplot2")
 ggplot(wOBA, aes(x = x)) +
   geom_histogram(bins = 64, color = "black") +
   theme_classic()
@@ -389,7 +389,7 @@ ggsave("../figs/wOBA_normal.pdf", height = 3, width = 5, units = "in")
 
 plot(fit_normal) +
   geom_point(aes(color = sqrt(wOBA$PA))) +
-  labs(x = "wOBA", y = "EB estimate of true wOBA skill", 
+  labs(x = "wOBA", y = "EB estimate of true wOBA skill",
        color = expression(sqrt(PA))) +
   scale_color_gradient(low = "blue", high = "red")
 ggsave("../figs/wOBA_normal_custom.pdf", height = 3, width = 5, units = "in")
@@ -409,7 +409,7 @@ dat <- cbind(wOBA[, c("PA","x")],
 names(dat) <- c("PA", "x", "mean1", "sd1", "mean2", "sd2")
 print(head(dat), digits = 3)
 
-library(cowplot)
+library("cowplot")
 p1 <- plot(fit_normal, fit_unimodal, incl_cdf = TRUE, incl_pm = FALSE) +
   xlim(c(.250, .350)) +
   guides(color = "none")
@@ -427,7 +427,7 @@ print(head(confint(fit_unimodal, level = 0.8)), digits = 3)
 
 fit_npmle <- ebnm(x, s, prior_family = "npmle")
 
-fit_npmle <- ebnm(x, s, prior_family = "npmle", 
+fit_npmle <- ebnm(x, s, prior_family = "npmle",
                   control = list(verbose = TRUE))
 
 # Slightly different from the text (need to show one plot at a time):
@@ -435,7 +435,7 @@ plot(
   fit_normal, fit_unimodal, fit_npmle,
   incl_cdf = TRUE,
   incl_pm = FALSE
-) + xlim(0.25, 0.45) 
+) + xlim(0.25, 0.45)
 ggsave("../figs/wOBA_npmle_cdf.pdf", height = 4, width = 6, units = "in")
 plot(
   fit_normal, fit_unimodal, fit_npmle,
@@ -448,7 +448,7 @@ ggsave("../figs/wOBA_npmle_pm.pdf", height = 4, width = 6, units = "in")
 logLik(fit_unimodal)
 logLik(fit_npmle)
 
-scale_npmle <- ebnm_scale_npmle(x, s, KLdiv_target = 0.001/length(x), 
+scale_npmle <- ebnm_scale_npmle(x, s, KLdiv_target = 0.001/length(x),
                                 max_K = 1000)
 fit_npmle_finer <- ebnm_npmle(x, s, scale = scale_npmle)
 logLik(fit_npmle)
@@ -459,7 +459,7 @@ print(head(quantile(fit_npmle, probs = c(0.1, 0.9))), digits = 3)
 
 confint(fit_npmle, level = 0.8, parm = "Aaron Judge")
 
-fit_deconv <- ebnm_deconvolver(x / s, output = ebnm_output_all()) 
+fit_deconv <- ebnm_deconvolver(x / s, output = ebnm_output_all())
 plot(fit_deconv, incl_cdf = TRUE, incl_pm = FALSE)
 ggsave("../figs/wOBA_deconv.pdf", height = 4, width = 6, units = "in")
 
@@ -468,14 +468,14 @@ print(head(quantile(fit_deconv, probs = c(0.1, 0.9)) * s), digits = 3)
 
 #### GTEx ----
 
-library(flashier)
-data(gtex)
+library("flashier")
+data("gtex")
 nrow(gtex)
 ncol(gtex)
 gtex[1:2, 1:2]
 
-library(Rtsne)
-library(ggrepel)
+library("Rtsne")
+library("ggrepel")
 set.seed(1)
 out <- Rtsne(t(gtex), dims = 2, perplexity = 10)
 pdat <- data.frame(d1 = out$Y[, 1],
@@ -501,7 +501,7 @@ plot(flash_n, include_scree = FALSE, pm_colors = gtex_colors) +
   guides(fill = guide_legend(title = "", nrow = 16)) +
   theme(legend.text = element_text(size = 9),
         legend.key.size = unit(6, "points"),
-        legend.position = "bottom") 
+        legend.position = "bottom")
 ggsave("../figs/gtex_n.pdf", height = 7, width = 8, units = "in")
 
 t_pn <- system.time({
@@ -515,12 +515,12 @@ plot(flash_pn, include_scree = FALSE, pm_colors = gtex_colors) +
   guides(fill = guide_legend(title = "", nrow = 16)) +
   theme(legend.text = element_text(size = 9),
         legend.key.size = unit(6, "points"),
-        legend.position = "bottom") 
+        legend.position = "bottom")
 ggsave("../figs/gtex_pn.pdf", height = 8, width = 8, units = "in")
 
 t_snn <- system.time({
-  flash_snn <- flash(gtex, 
-                     ebnm_fn = c(ebnm_point_normal, ebnm_point_exponential), 
+  flash_snn <- flash(gtex,
+                     ebnm_fn = c(ebnm_point_normal, ebnm_point_exponential),
                      backfit = TRUE)
 })
 t_snn[3]
@@ -531,7 +531,7 @@ plot(flash_snn, include_scree = FALSE, pm_colors = gtex_colors) +
   guides(fill = guide_legend(title = "", nrow = 16)) +
   theme(legend.text = element_text(size = 9),
         legend.key.size = unit(6, "points"),
-        legend.position = "bottom") 
+        legend.position = "bottom")
 ggsave("../figs/gtex_pe.pdf", height = 8, width = 8, units = "in")
 
 
