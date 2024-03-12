@@ -35,8 +35,76 @@ library("tidyverse")
 library("ebnm")
 library("flashier")
 library("gt")
+library("cowplot")
 
 # Also needed: microbenchmark, scales, Rtsne, ggrepel, cowplot
+
+
+###### INTRODUCTION ---------------------------------------------------
+
+# Run simulation from shrink_intro.Rmd vignette.
+set.seed(1)
+n <- 400
+u <- 2 + (runif(n) < 0.2) * rnorm(n)
+s <- rep(1/3, n)
+x <- u + s * rnorm(n)
+
+# Fit EBNM models.
+fit_normal <- ebnm(x, s, prior_family = "normal", mode = "estimate")
+fit_pn <- ebnm(x, s, prior_family = "point_normal", mode = "estimate")
+
+# Compile the results needed to generate the plots.
+pdat <- data.frame(u      = u,
+                   mle    = x,
+                   est.n  = coef(fit_normal),
+                   est.pn = coef(fit_pn))
+
+# Plot true mean vs. MLE.
+lims <- c(-0.55,5.05)
+p1 <- ggplot(pdat, aes(x = u, y = mle)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, color = "magenta", linetype = "dotted") +
+  labs(x = "true value",
+       y = "estimate",
+       title = "MLE",
+       subtitle = sprintf("RMSE = %0.3f", sqrt(mean((x - u)^2)))) +
+  xlim(lims) +
+  ylim(lims) +
+  theme_cowplot(font_size = 12) +
+  theme(plot.title = element_text(face = "plain", size = 11),
+        plot.subtitle = element_text(face = "plain", size = 10))
+
+# Plot true mean vs. posterior estimate from fit_normal.
+p2 <- ggplot(pdat, aes(x = u, y = est.n)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, color = "magenta", linetype = "dotted") +
+  labs(x = "true value ",
+       y = "estimate",
+       title = "EB with normal prior",
+       subtitle = sprintf("RMSE = %0.3f", sqrt(mean((coef(fit_normal) - u)^2)))) +
+  xlim(lims) +
+  ylim(lims) +
+  theme_cowplot(font_size = 12) +
+  theme(plot.title = element_text(face = "plain", size = 11),
+        plot.subtitle = element_text(face = "plain", size = 10))
+
+# Plot true mean vs. posterior estimate from fit_pn.
+p3 <- ggplot(pdat, aes(x = u, y = est.pn)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, color = "magenta", linetype = "dotted") +
+  labs(x = "true value ",
+       y = "estimate",
+       title = "EB with point-normal prior",
+       subtitle = sprintf("RMSE = %0.3f", sqrt(mean((coef(fit_pn) - u)^2)))) +
+  xlim(lims) +
+  ylim(lims) +
+  theme_cowplot(font_size = 12) +
+  theme(plot.title = element_text(face = "plain", size = 11),
+        plot.subtitle = element_text(face = "plain", size = 10))
+
+ggsave("../figs/shrink_intro.pdf",
+       plot_grid(p1, p2, p3, nrow = 1, ncol = 3),
+       height = 2.75, width = 7)
 
 
 ###### TIMING STUDY ---------------------------------------------------
@@ -287,7 +355,7 @@ rmse_pal <- function(x) {
   f <- scales::col_numeric(
     palette = "Reds",
     domain = c(min_x, 1),
-    reverse = FALSE
+    reverse = TRUE
   )
   ifelse(x > 1, f(1), f(x))
 }
@@ -297,12 +365,12 @@ ci_pal <- function(x) {
   f_undercover <- scales::col_numeric(
     palette = "Greens",
     domain = c(0.9 - pal_width, 0.9),
-    reverse = TRUE
+    reverse = FALSE
   )
   f_overcover <- scales::col_numeric(
     palette = "Blues",
     domain = c(0.9, 0.9 + pal_width),
-    reverse = FALSE
+    reverse = TRUE
   )
   ifelse(x < 0.9, f_undercover(x), f_overcover(x))
 }
@@ -334,7 +402,7 @@ tbl <- res_table %>%
     colors = scales::col_numeric(
       palette = "Reds",
       domain = NULL,
-      reverse = TRUE
+      reverse = FALSE
     )) %>%
   data_color(
     columns = starts_with("RMSE"),
@@ -368,12 +436,6 @@ data("wOBA")
 nrow(wOBA)
 head(wOBA)
 
-library("ggplot2")
-ggplot(wOBA, aes(x = x)) +
-  geom_histogram(bins = 64, color = "black") +
-  theme_classic()
-ggsave("../figs/wOBA_dist.pdf", height = 3, width = 5, units = "in")
-
 x <- wOBA$x
 s <- wOBA$s
 names(x) <- wOBA$Name
@@ -381,11 +443,6 @@ names(s) <- wOBA$Name
 fit_normal <- ebnm(x, s, prior_family = "normal", mode = "estimate")
 
 fit_normal <- ebnm_normal(x, s, mode = "estimate")
-
-summary(fit_normal)
-
-plot(fit_normal)
-ggsave("../figs/wOBA_normal.pdf", height = 3, width = 5, units = "in")
 
 plot(fit_normal) +
   geom_point(aes(color = sqrt(wOBA$PA))) +
@@ -398,37 +455,19 @@ print(head(fitted(fit_normal)), digits = 3)
 
 fit_unimodal <- ebnm(x, s, prior_family = "unimodal", mode = "estimate")
 
-top50 <- order(wOBA$PA, decreasing = TRUE)
-top50 <- top50[1:50]
-plot(fit_normal, fit_unimodal, subset = top50)
-ggsave("../figs/wOBA_comp.pdf", height = 3, width = 5, units = "in")
-
 dat <- cbind(wOBA[, c("PA","x")],
              fitted(fit_normal),
              fitted(fit_unimodal))
 names(dat) <- c("PA", "x", "mean1", "sd1", "mean2", "sd2")
 print(head(dat), digits = 3)
 
-library("cowplot")
-p1 <- plot(fit_normal, fit_unimodal, incl_cdf = TRUE, incl_pm = FALSE) +
-  xlim(c(.250, .350)) +
-  guides(color = "none")
-p2 <- plot(fit_normal, fit_unimodal, incl_cdf = TRUE, incl_pm = FALSE) +
-  lims(x = c(.350, .450), y = c(0.95, 1))
-plot_grid(p1, p2, nrow = 1, ncol = 2, rel_widths = c(.4, .6))
-ggsave("../figs/wOBA_comp_cdf.pdf", height = 3, width = 10, units = "in")
-
-fit_unimodal <- ebnm_add_sampler(fit_unimodal)
-set.seed(1)
-print(head(confint(fit_unimodal, level = 0.8)), digits = 3)
-
 
 #### wOBA (part II) ----
 
 fit_npmle <- ebnm(x, s, prior_family = "npmle")
 
-fit_npmle <- ebnm(x, s, prior_family = "npmle",
-                  control = list(verbose = TRUE))
+top50 <- order(wOBA$PA, decreasing = TRUE)
+top50 <- top50[1:50]
 
 # Slightly different from the text (need to show one plot at a time):
 plot(
@@ -448,22 +487,11 @@ ggsave("../figs/wOBA_npmle_pm.pdf", height = 4, width = 6, units = "in")
 logLik(fit_unimodal)
 logLik(fit_npmle)
 
-scale_npmle <- ebnm_scale_npmle(x, s, KLdiv_target = 0.001/length(x),
-                                max_K = 1000)
-fit_npmle_finer <- ebnm_npmle(x, s, scale = scale_npmle)
-logLik(fit_npmle)
-logLik(fit_npmle_finer)
-
 fit_npmle <- ebnm_add_sampler(fit_npmle)
-print(head(quantile(fit_npmle, probs = c(0.1, 0.9))), digits = 3)
-
-confint(fit_npmle, level = 0.8, parm = "Aaron Judge")
+print(head(confint(fit_npmle, level = 0.8)), digits = 3)
 
 fit_deconv <- ebnm_deconvolver(x / s, output = ebnm_output_all())
-plot(fit_deconv, incl_cdf = TRUE, incl_pm = FALSE)
-ggsave("../figs/wOBA_deconv.pdf", height = 4, width = 6, units = "in")
-
-print(head(quantile(fit_deconv, probs = c(0.1, 0.9)) * s), digits = 3)
+print(head(confint(fit_deconv, level = 0.8) * s), digits = 3)
 
 
 #### GTEx ----
@@ -490,6 +518,7 @@ ggplot(pdat,aes(x = d1, y = d2, label = tissue)) +
         axis.text = element_blank())
 ggsave("../figs/gtex_tsne.pdf", height = 4, width = 6, units = "in")
 
+# Different from text (we record timings here):
 t_n <- system.time({
   flash_n <- flash(gtex, ebnm_fn = ebnm_normal, backfit = TRUE)
 })
@@ -504,6 +533,7 @@ plot(flash_n, include_scree = FALSE, pm_colors = gtex_colors) +
         legend.position = "bottom")
 ggsave("../figs/gtex_n.pdf", height = 7, width = 8, units = "in")
 
+# Different from text (we record timings here):
 t_pn <- system.time({
   flash_pn <- flash(gtex, ebnm_fn = ebnm_point_normal, backfit = TRUE)
 })
@@ -517,22 +547,6 @@ plot(flash_pn, include_scree = FALSE, pm_colors = gtex_colors) +
         legend.key.size = unit(6, "points"),
         legend.position = "bottom")
 ggsave("../figs/gtex_pn.pdf", height = 8, width = 8, units = "in")
-
-t_snn <- system.time({
-  flash_snn <- flash(gtex,
-                     ebnm_fn = c(ebnm_point_normal, ebnm_point_exponential),
-                     backfit = TRUE)
-})
-t_snn[3]
-
-# Different from text (we add a legend here):
-plot(flash_snn, include_scree = FALSE, pm_colors = gtex_colors) +
-  ggtitle("") +
-  guides(fill = guide_legend(title = "", nrow = 16)) +
-  theme(legend.text = element_text(size = 9),
-        legend.key.size = unit(6, "points"),
-        legend.position = "bottom")
-ggsave("../figs/gtex_pe.pdf", height = 8, width = 8, units = "in")
 
 
 ###### SESSION INFO ---------------------------------------------------
