@@ -350,29 +350,35 @@ lbls <- c("Prior family", rep(c("Normal", "Point-t", "Tophat"), times = 3))
 names(lbls) <- names(res_table)
 lbls <- as.list(lbls)
 
+llik_pal <- function(x) {
+  x <- ifelse(is.na(x), 1, x)
+  f <- scales::col_numeric(
+    palette = "Greens",
+    domain = c(-20, 0),
+    reverse = FALSE
+  )
+  ifelse(x < -20, f(-20), f(x))
+}
+
 rmse_pal <- function(x) {
   min_x <- min(x)
+  scale_max <- min_x + .02
   f <- scales::col_numeric(
-    palette = "Reds",
-    domain = c(min_x, 1),
+    palette = "Greens",
+    domain = c(min_x, scale_max),
     reverse = TRUE
   )
-  ifelse(x > 1, f(1), f(x))
+  ifelse(x > scale_max, f(scale_max), f(x))
 }
 
 ci_pal <- function(x) {
-  pal_width <- max(abs(range(x) - 0.9))
-  f_undercover <- scales::col_numeric(
+  x <- abs(x - 0.9)
+  f <- scales::col_numeric(
     palette = "Greens",
-    domain = c(0.9 - pal_width, 0.9),
-    reverse = FALSE
-  )
-  f_overcover <- scales::col_numeric(
-    palette = "Blues",
-    domain = c(0.9, 0.9 + pal_width),
+    domain = c(0, 0.02),
     reverse = TRUE
   )
-  ifelse(x < 0.9, f_undercover(x), f_overcover(x))
+  ifelse(x > 0.02, f(0.02), f(x))
 }
 
 tbl <- res_table %>%
@@ -399,11 +405,7 @@ tbl <- res_table %>%
   ) %>%
   data_color(
     columns = starts_with("Log"),
-    colors = scales::col_numeric(
-      palette = "Reds",
-      domain = NULL,
-      reverse = FALSE
-    )) %>%
+    colors = llik_pal) %>%
   data_color(
     columns = starts_with("RMSE"),
     colors = rmse_pal) %>%
