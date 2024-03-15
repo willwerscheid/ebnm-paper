@@ -60,7 +60,7 @@ pdat <- data.frame(u      = u,
                    est.pn = coef(fit_pn))
 
 # Plot true mean vs. MLE.
-lims <- c(-0.55,5.05)
+lims <- c(-0.55, 5.05)
 p1 <- ggplot(pdat, aes(x = u, y = mle)) +
   geom_point() +
   geom_abline(intercept = 0, slope = 1, color = "magenta", linetype = "dotted") +
@@ -420,8 +420,6 @@ tbl <- res_table %>%
     locations = cells_body()
   )
 
-print(tbl)
-
 gtsave(tbl, paste0("../figs/simres", fname_suffix, ".htm"))
 
 # Convert using Adobe (Create... > PDF from Web Page...)
@@ -460,7 +458,7 @@ fit_unimodal <- ebnm(x, s, prior_family = "unimodal", mode = "estimate")
 dat <- cbind(wOBA[, c("PA","x")],
              fitted(fit_normal),
              fitted(fit_unimodal))
-names(dat) <- c("PA", "x", "mean1", "sd1", "mean2", "sd2")
+names(dat) <- c("PA", "x", "mean_n", "sd_n", "mean_u", "sd_u")
 print(head(dat), digits = 3)
 
 
@@ -490,9 +488,11 @@ logLik(fit_unimodal)
 logLik(fit_npmle)
 
 fit_npmle <- ebnm_add_sampler(fit_npmle)
+set.seed(123)
 print(head(confint(fit_npmle, level = 0.8)), digits = 3)
 
 fit_deconv <- ebnm_deconvolver(x / s, output = ebnm_output_all())
+set.seed(123)
 print(head(confint(fit_deconv, level = 0.8) * s), digits = 3)
 
 
