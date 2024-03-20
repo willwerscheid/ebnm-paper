@@ -334,8 +334,10 @@ do_test <- function(n, sim_fn, homosked, nsim, mbtimes = 5L) {
                                    control = list(gradtol = sqrt(.Machine$double.eps)),
                                    output = c("posterior_mean", "log_likelihood")),
       theirres <- tryCatch(
-        ebayesthresh(x = x, sdev = s, a = NA, threshrule = "mean",
-                     universalthresh = FALSE, verbose = TRUE),
+        # Warnings given:
+        #   Warning in log(1 + (xpar[1] * (whi - wlo) + wlo) * beta.laplace(xx, ss, : NaNs produced
+        suppressWarnings(ebayesthresh(x = x, sdev = s, a = NA, threshrule = "mean",
+                                      universalthresh = FALSE, verbose = TRUE)),
         error = function(x) list(w = NULL, a = NULL)
       ),
       times = mbtimes
@@ -583,7 +585,13 @@ do_test <- function(n, homosked, nsim, n_gridpts, mbtimes = 5L) {
       ourres <- ebnm_npmle(x = x, s = s, scale = scale,
                            control = list(convtol.sqp = 1e-4),
                            output = c("posterior_mean", "log_likelihood")),
-      theirres <- GLmix(x, sigma = s, v = n_gridpts, control = list(rtol = 1e-4)),
+      theirres <- tryCatch(
+        # Warnings given:
+        #   estimated mixing distribution has some negative values: consider reducing rtol
+        # Note: We were unable to fix this issue by reducing rtol.
+        suppressWarnings(GLmix(x, sigma = s, v = n_gridpts, control = list(rtol = 1e-4))),
+        error = function(x) list(loglik = NULL, status = "NOTFOUND")
+      ),
       times = mbtimes
     )
 
@@ -619,7 +627,7 @@ if (exists("test") && test) {
   ngridpts <- c(10, 30)
 } else {
   ns <- 10^(3:5)
-  ngridpts <- c(10, 30, 100, 300)
+  ngridpts <- c(10, 20, 40, 80, 160, 320)
 }
 
 for (n in ns) {
@@ -659,7 +667,7 @@ ggplot(rebayes, aes(x = n, y = package, fill = t_penalty)) +
   facet_grid(cols = vars(n_gridpts), rows = vars(homosked)) +
   theme(axis.text.x = element_text(size = 7))
 
-ggsave("../figs/rebayes.pdf", width = 7, height = 5)
+ggsave("../figs/rebayes.pdf", width = 9, height = 5)
 
 
 ###### SESSION INFO ---------------------------------------------------
