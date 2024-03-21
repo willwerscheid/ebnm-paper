@@ -496,61 +496,6 @@ set.seed(123)
 print(head(confint(fit_deconv, level = 0.8) * s), digits = 3)
 
 
-#### GTEx ----
-
-library("flashier")
-data("gtex")
-nrow(gtex)
-ncol(gtex)
-gtex[1:2, 1:2]
-
-library("Rtsne")
-library("ggrepel")
-set.seed(1)
-out <- Rtsne(t(gtex), dims = 2, perplexity = 10)
-pdat <- data.frame(d1 = out$Y[, 1],
-                   d2 = out$Y[, 2],
-                   tissue = colnames(gtex))
-ggplot(pdat,aes(x = d1, y = d2, label = tissue)) +
-  geom_point(size = 6, color = gtex_colors) +
-  geom_text_repel(size = 2.5, max.overlaps = Inf) +
-  labs(x = "t-SNE [1]", y = "t-SNE [2]") +
-  theme_classic() +
-  theme(axis.ticks = element_blank(),
-        axis.text = element_blank())
-ggsave("../figs/gtex_tsne.pdf", height = 4, width = 6, units = "in")
-
-# Different from text (we record timings here):
-t_n <- system.time({
-  flash_n <- flash(gtex, ebnm_fn = ebnm_normal, backfit = TRUE)
-})
-t_n[3]
-
-# Different from text (we add a legend here):
-plot(flash_n, include_scree = FALSE, pm_colors = gtex_colors) +
-  ggtitle("") +
-  guides(fill = guide_legend(title = "", nrow = 16)) +
-  theme(legend.text = element_text(size = 9),
-        legend.key.size = unit(6, "points"),
-        legend.position = "bottom")
-ggsave("../figs/gtex_n.pdf", height = 7, width = 8, units = "in")
-
-# Different from text (we record timings here):
-t_pn <- system.time({
-  flash_pn <- flash(gtex, ebnm_fn = ebnm_point_normal, backfit = TRUE)
-})
-t_pn[3]
-
-# Different from text (we add a legend here):
-plot(flash_pn, include_scree = FALSE, pm_colors = gtex_colors) +
-  ggtitle("") +
-  guides(fill = guide_legend(title = "", nrow = 16)) +
-  theme(legend.text = element_text(size = 9),
-        legend.key.size = unit(6, "points"),
-        legend.position = "bottom")
-ggsave("../figs/gtex_pn.pdf", height = 8, width = 8, units = "in")
-
-
 ###### SESSION INFO ---------------------------------------------------
 
 cat("\n\n")
