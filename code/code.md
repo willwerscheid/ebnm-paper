@@ -310,7 +310,7 @@ cat("  Done. Time elapsed:",
 ```
 
 ```
-##   Done. Time elapsed: 5.4 minutes.
+##   Done. Time elapsed: 5.7 minutes.
 ```
 
 ```r
@@ -845,188 +845,6 @@ print(head(confint(fit_deconv, level = 0.8) * s), digits = 3)
 ```
 
 ```r
-#### GTEx ----
-
-library("flashier")
-data("gtex")
-nrow(gtex)
-```
-
-```
-## [1] 1000
-```
-
-```r
-ncol(gtex)
-```
-
-```
-## [1] 44
-```
-
-```r
-gtex[1:2, 1:2]
-```
-
-```
-##                                       Adipose_Subcutaneous Adipose_Visceral_Omentum
-## ENSG00000099977.9_22_24266954_A_C_b37             8.099352                6.4129683
-## ENSG00000233868.1_2_222475922_A_G_b37             1.079264               -0.7760486
-```
-
-```r
-library("Rtsne")
-library("ggrepel")
-set.seed(1)
-out <- Rtsne(t(gtex), dims = 2, perplexity = 10)
-pdat <- data.frame(d1 = out$Y[, 1],
-                   d2 = out$Y[, 2],
-                   tissue = colnames(gtex))
-ggplot(pdat,aes(x = d1, y = d2, label = tissue)) +
-  geom_point(size = 6, color = gtex_colors) +
-  geom_text_repel(size = 2.5, max.overlaps = Inf) +
-  labs(x = "t-SNE [1]", y = "t-SNE [2]") +
-  theme_classic() +
-  theme(axis.ticks = element_blank(),
-        axis.text = element_blank())
-```
-
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-5.png)
-
-```r
-ggsave("../figs/gtex_tsne.pdf", height = 4, width = 6, units = "in")
-
-# Different from text (we record timings here):
-t_n <- system.time({
-  flash_n <- flash(gtex, ebnm_fn = ebnm_normal, backfit = TRUE)
-})
-```
-
-```
-## Adding factor 1 to flash object...
-## Adding factor 2 to flash object...
-## Adding factor 3 to flash object...
-## Adding factor 4 to flash object...
-## Adding factor 5 to flash object...
-## Adding factor 6 to flash object...
-## Adding factor 7 to flash object...
-## Adding factor 8 to flash object...
-## Adding factor 9 to flash object...
-## Adding factor 10 to flash object...
-## Adding factor 11 to flash object...
-## Adding factor 12 to flash object...
-## Adding factor 13 to flash object...
-## Adding factor 14 to flash object...
-## Adding factor 15 to flash object...
-## Factor doesn't significantly increase objective and won't be added.
-## Wrapping up...
-## Done.
-## Backfitting 14 factors (tolerance: 6.56e-04)...
-##   Difference between iterations is within 1.0e+02...
-##   Difference between iterations is within 1.0e+01...
-##   Difference between iterations is within 1.0e+00...
-##   Difference between iterations is within 1.0e-01...
-##   Difference between iterations is within 1.0e-02...
-## Wrapping up...
-## Done.
-## Nullchecking 14 factors...
-## Done.
-```
-
-```r
-t_n[3]
-```
-
-```
-## elapsed 
-##   0.806
-```
-
-```r
-# Different from text (we add a legend here):
-plot(flash_n, include_scree = FALSE, pm_colors = gtex_colors) +
-  ggtitle("") +
-  guides(fill = guide_legend(title = "", nrow = 16)) +
-  theme(legend.text = element_text(size = 9),
-        legend.key.size = unit(6, "points"),
-        legend.position = "bottom")
-```
-
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-6.png)
-
-```r
-ggsave("../figs/gtex_n.pdf", height = 7, width = 8, units = "in")
-
-# Different from text (we record timings here):
-t_pn <- system.time({
-  flash_pn <- flash(gtex, ebnm_fn = ebnm_point_normal, backfit = TRUE)
-})
-```
-
-```
-## Adding factor 1 to flash object...
-## Adding factor 2 to flash object...
-## Adding factor 3 to flash object...
-## Adding factor 4 to flash object...
-## Adding factor 5 to flash object...
-## Adding factor 6 to flash object...
-## Adding factor 7 to flash object...
-## Adding factor 8 to flash object...
-## Adding factor 9 to flash object...
-## Adding factor 10 to flash object...
-## Adding factor 11 to flash object...
-## Adding factor 12 to flash object...
-## Adding factor 13 to flash object...
-## Adding factor 14 to flash object...
-## Adding factor 15 to flash object...
-## Adding factor 16 to flash object...
-## Adding factor 17 to flash object...
-## Adding factor 18 to flash object...
-## Adding factor 19 to flash object...
-## Adding factor 20 to flash object...
-## Adding factor 21 to flash object...
-## Adding factor 22 to flash object...
-## Factor doesn't significantly increase objective and won't be added.
-## Wrapping up...
-## Done.
-## Backfitting 21 factors (tolerance: 6.56e-04)...
-##   Difference between iterations is within 1.0e+02...
-##   Difference between iterations is within 1.0e+01...
-##   Difference between iterations is within 1.0e+00...
-##   Difference between iterations is within 1.0e-01...
-##   Difference between iterations is within 1.0e-02...
-##   Difference between iterations is within 1.0e-03...
-## Wrapping up...
-## Done.
-## Nullchecking 21 factors...
-## Done.
-```
-
-```r
-t_pn[3]
-```
-
-```
-## elapsed 
-##   4.434
-```
-
-```r
-# Different from text (we add a legend here):
-plot(flash_pn, include_scree = FALSE, pm_colors = gtex_colors) +
-  ggtitle("") +
-  guides(fill = guide_legend(title = "", nrow = 16)) +
-  theme(legend.text = element_text(size = 9),
-        legend.key.size = unit(6, "points"),
-        legend.position = "bottom")
-```
-
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-7.png)
-
-```r
-ggsave("../figs/gtex_pn.pdf", height = 8, width = 8, units = "in")
-
-
 ###### SESSION INFO ---------------------------------------------------
 
 cat("\n\n")
@@ -1055,15 +873,15 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] ggrepel_0.9.5   Rtsne_0.17      cowplot_1.1.3   gt_0.10.1       flashier_1.0.7  magrittr_2.0.3 
-##  [7] ebnm_1.1-25     lubridate_1.9.3 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4     purrr_1.0.2    
-## [13] readr_2.1.5     tidyr_1.3.0     tibble_3.2.1    ggplot2_3.5.0   tidyverse_2.0.0
+##  [1] cowplot_1.1.3   gt_0.10.1       flashier_1.0.7  magrittr_2.0.3  ebnm_1.1-25     lubridate_1.9.3
+##  [7] forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4     purrr_1.0.2     readr_2.1.5     tidyr_1.3.0    
+## [13] tibble_3.2.1    ggplot2_3.5.0   tidyverse_2.0.0
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] gtable_0.3.4          softImpute_1.4-1      xfun_0.41             lattice_0.21-9        tzdb_0.4.0           
 ##  [6] vctrs_0.6.5           tools_4.3.2           generics_0.1.3        parallel_4.3.2        fansi_1.0.6          
 ## [11] pkgconfig_2.0.3       Matrix_1.6-1.1        SQUAREM_2021.1        RColorBrewer_1.1-3    lifecycle_1.0.4      
-## [16] truncnorm_1.0-9       compiler_4.3.2        farver_2.1.1          textshaping_0.3.7     microbenchmark_1.4.10
+## [16] truncnorm_1.0-9       compiler_4.3.2        farver_2.1.1          microbenchmark_1.4.10 textshaping_0.3.7    
 ## [21] munsell_0.5.0         sass_0.4.8            htmltools_0.5.7       pillar_1.9.0          trust_0.1-8          
 ## [26] tidyselect_1.2.1      digest_0.6.34         stringi_1.8.3         ashr_2.2-63           labeling_0.4.3       
 ## [31] splines_4.3.2         fastmap_1.1.1         grid_4.3.2            colorspace_2.1-0      cli_3.6.2            
