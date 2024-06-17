@@ -38,13 +38,13 @@ library("tidyverse")
 ```
 
 ```
-## ── Attaching core tidyverse packages ─────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+## ── Attaching core tidyverse packages ─────────────────────────────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
 ## ✔ purrr     1.0.2     
-## ── Conflicts ───────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
@@ -245,8 +245,8 @@ for (i in 1:length(ns)) {
 ```
 
 ```
-## Warning in microbenchmark::microbenchmark(list = mb_tests, times = mb_times[i]): less accurate nanosecond times to
-## avoid potential integer overflows
+## Warning in microbenchmark::microbenchmark(list = mb_tests, times = mb_times[i]): less accurate
+## nanosecond times to avoid potential integer overflows
 ```
 
 ```
@@ -254,47 +254,67 @@ for (i in 1:length(ns)) {
 ```
 
 ```
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 ```
 
 ```
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 ```
 
 ```
@@ -310,7 +330,7 @@ cat("  Done. Time elapsed:",
 ```
 
 ```
-##   Done. Time elapsed: 5.7 minutes.
+##   Done. Time elapsed: 5.4 minutes.
 ```
 
 ```r
@@ -486,7 +506,8 @@ for (sim_fn in sim_fns) {
 ```
 
 ```
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 ```
 
 ```
@@ -494,9 +515,11 @@ for (sim_fn in sim_fns) {
 ```
 
 ```
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 ```
 
 ```
@@ -504,7 +527,8 @@ for (sim_fn in sim_fns) {
 ```
 
 ```
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 ```
 
 ```
@@ -516,7 +540,8 @@ for (sim_fn in sim_fns) {
 ```
 
 ```
-## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum positive value
+## Warning in stats::nlm(f = loglik, p = aStart, gradtol = 1e-10, ...): NA/Inf replaced by maximum
+## positive value
 ```
 
 ```
@@ -857,7 +882,7 @@ sessionInfo()
 ```
 ## R version 4.3.2 (2023-10-31)
 ## Platform: aarch64-apple-darwin20 (64-bit)
-## Running under: macOS Monterey 12.3
+## Running under: macOS Monterey 12.7.4
 ## 
 ## Matrix products: default
 ## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
@@ -873,22 +898,24 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] cowplot_1.1.3   gt_0.10.1       flashier_1.0.7  magrittr_2.0.3  ebnm_1.1-25     lubridate_1.9.3
+##  [1] cowplot_1.1.3   gt_0.10.1       flashier_1.0.7  magrittr_2.0.3  ebnm_1.1-34     lubridate_1.9.3
 ##  [7] forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4     purrr_1.0.2     readr_2.1.5     tidyr_1.3.0    
 ## [13] tibble_3.2.1    ggplot2_3.5.0   tidyverse_2.0.0
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] gtable_0.3.4          softImpute_1.4-1      xfun_0.41             lattice_0.21-9        tzdb_0.4.0           
-##  [6] vctrs_0.6.5           tools_4.3.2           generics_0.1.3        parallel_4.3.2        fansi_1.0.6          
-## [11] pkgconfig_2.0.3       Matrix_1.6-1.1        SQUAREM_2021.1        RColorBrewer_1.1-3    lifecycle_1.0.4      
-## [16] truncnorm_1.0-9       compiler_4.3.2        farver_2.1.1          microbenchmark_1.4.10 textshaping_0.3.7    
-## [21] munsell_0.5.0         sass_0.4.8            htmltools_0.5.7       pillar_1.9.0          trust_0.1-8          
-## [26] tidyselect_1.2.1      digest_0.6.34         stringi_1.8.3         ashr_2.2-63           labeling_0.4.3       
-## [31] splines_4.3.2         fastmap_1.1.1         grid_4.3.2            colorspace_2.1-0      cli_3.6.2            
-## [36] invgamma_1.1          utf8_1.2.4            withr_3.0.0           scales_1.3.0          horseshoe_0.2.0      
-## [41] timechange_0.2.0      deconvolveR_1.2-1     ragg_1.2.7            hms_1.1.3             evaluate_0.23        
-## [46] knitr_1.45            irlba_2.3.5.1         rlang_1.1.3           Rcpp_1.0.12           mixsqp_0.3-54        
-## [51] glue_1.7.0            xml2_1.3.6            rstudioapi_0.15.0     R6_2.5.1              fs_1.6.3             
-## [56] systemfonts_1.0.5
+##  [1] gtable_0.3.4          softImpute_1.4-1      xfun_0.41             lattice_0.21-9       
+##  [5] tzdb_0.4.0            vctrs_0.6.5           tools_4.3.2           generics_0.1.3       
+##  [9] parallel_4.3.2        fansi_1.0.6           pkgconfig_2.0.3       Matrix_1.6-1.1       
+## [13] SQUAREM_2021.1        RColorBrewer_1.1-3    lifecycle_1.0.4       truncnorm_1.0-9      
+## [17] compiler_4.3.2        farver_2.1.1          textshaping_0.3.7     microbenchmark_1.4.10
+## [21] munsell_0.5.0         sass_0.4.8            htmltools_0.5.7       pillar_1.9.0         
+## [25] trust_0.1-8           tidyselect_1.2.1      digest_0.6.34         stringi_1.8.3        
+## [29] ashr_2.2-63           labeling_0.4.3        splines_4.3.2         fastmap_1.1.1        
+## [33] grid_4.3.2            colorspace_2.1-0      cli_3.6.2             invgamma_1.1         
+## [37] utf8_1.2.4            withr_3.0.0           scales_1.3.0          horseshoe_0.2.0      
+## [41] timechange_0.2.0      deconvolveR_1.2-1     ragg_1.2.7            hms_1.1.3            
+## [45] evaluate_0.23         knitr_1.45            irlba_2.3.5.1         rlang_1.1.3          
+## [49] Rcpp_1.0.12           mixsqp_0.3-54         glue_1.7.0            xml2_1.3.6           
+## [53] rstudioapi_0.15.0     R6_2.5.1              fs_1.6.3              systemfonts_1.0.5
 ```
 

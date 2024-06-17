@@ -745,16 +745,7 @@ for (n in ns) {
 ```
 
 ```
-##   Testing n = 1000 , n_gridpts = 10 , homosked = TRUE
-```
-
-```
-## 'as(<dgCMatrix>, "dgTMatrix")' is deprecated.
-## Use 'as(., "TsparseMatrix")' instead.
-## See help("Deprecated") and help("Matrix-deprecated").
-```
-
-```
+##   Testing n = 1000 , n_gridpts = 10 , homosked = TRUE 
 ##   Testing n = 1000 , n_gridpts = 10 , homosked = FALSE 
 ##   Testing n = 1000 , n_gridpts = 20 , homosked = TRUE 
 ##   Testing n = 1000 , n_gridpts = 20 , homosked = FALSE 
@@ -833,7 +824,7 @@ sessionInfo()
 ```
 ## R version 4.3.2 (2023-10-31)
 ## Platform: aarch64-apple-darwin20 (64-bit)
-## Running under: macOS Monterey 12.3
+## Running under: macOS Monterey 12.7.4
 ## 
 ## Matrix products: default
 ## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
@@ -849,20 +840,24 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] REBayes_2.54          Matrix_1.6-1.1        ashr_2.2-63           EbayesThresh_1.4-12   microbenchmark_1.4.10
-##  [6] flashier_1.0.7        magrittr_2.0.3        ebnm_1.1-25           lubridate_1.9.3       forcats_1.0.0        
-## [11] stringr_1.5.1         dplyr_1.1.4           purrr_1.0.2           readr_2.1.5           tidyr_1.3.0          
-## [16] tibble_3.2.1          ggplot2_3.5.0         tidyverse_2.0.0      
+##  [1] REBayes_2.54          Matrix_1.6-1.1        ashr_2.2-63           EbayesThresh_1.4-12  
+##  [5] microbenchmark_1.4.10 cowplot_1.1.3         gt_0.10.1             flashier_1.0.7       
+##  [9] magrittr_2.0.3        ebnm_1.1-34           lubridate_1.9.3       forcats_1.0.0        
+## [13] stringr_1.5.1         dplyr_1.1.4           purrr_1.0.2           readr_2.1.5          
+## [17] tidyr_1.3.0           tibble_3.2.1          ggplot2_3.5.0         tidyverse_2.0.0      
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] utf8_1.2.4        generics_0.1.3    stringi_1.8.3     lattice_0.21-9    hms_1.1.3         timechange_0.2.0 
-##  [7] evaluate_0.23     grid_4.3.2        mixsqp_0.3-54     Rmosek_10.0.25    fansi_1.0.6       scales_1.3.0     
-## [13] truncnorm_1.0-9   textshaping_0.3.7 invgamma_1.1      cli_3.6.2         rlang_1.1.3       deconvolveR_1.2-1
-## [19] munsell_0.5.0     splines_4.3.2     withr_3.0.0       parallel_4.3.2    tools_4.3.2       SQUAREM_2021.1   
-## [25] softImpute_1.4-1  tzdb_0.4.0        wavethresh_4.7.2  colorspace_2.1-0  vctrs_0.6.5       R6_2.5.1         
-## [31] lifecycle_1.0.4   MASS_7.3-60       trust_0.1-8       ragg_1.2.7        irlba_2.3.5.1     pkgconfig_2.0.3  
-## [37] pillar_1.9.0      gtable_0.3.4      glue_1.7.0        Rcpp_1.0.12       systemfonts_1.0.5 xfun_0.41        
-## [43] tidyselect_1.2.1  rstudioapi_0.15.0 knitr_1.45        farver_2.1.1      labeling_0.4.3    compiler_4.3.2   
-## [49] horseshoe_0.2.0
+##  [1] gtable_0.3.4       softImpute_1.4-1   xfun_0.41          lattice_0.21-9     tzdb_0.4.0        
+##  [6] Rmosek_10.0.25     vctrs_0.6.5        tools_4.3.2        generics_0.1.3     parallel_4.3.2    
+## [11] fansi_1.0.6        highr_0.10         pkgconfig_2.0.3    SQUAREM_2021.1     RColorBrewer_1.1-3
+## [16] lifecycle_1.0.4    truncnorm_1.0-9    compiler_4.3.2     farver_2.1.1       textshaping_0.3.7 
+## [21] wavethresh_4.7.2   munsell_0.5.0      sass_0.4.8         htmltools_0.5.7    pillar_1.9.0      
+## [26] MASS_7.3-60        trust_0.1-8        mime_0.12          commonmark_1.9.0   tidyselect_1.2.1  
+## [31] digest_0.6.34      stringi_1.8.3      labeling_0.4.3     splines_4.3.2      fastmap_1.1.1     
+## [36] grid_4.3.2         colorspace_2.1-0   cli_3.6.2          invgamma_1.1       utf8_1.2.4        
+## [41] withr_3.0.0        scales_1.3.0       horseshoe_0.2.0    timechange_0.2.0   deconvolveR_1.2-1 
+## [46] ragg_1.2.7         hms_1.1.3          evaluate_0.23      knitr_1.45         irlba_2.3.5.1     
+## [51] markdown_1.12      rlang_1.1.3        Rcpp_1.0.12        mixsqp_0.3-54      glue_1.7.0        
+## [56] xml2_1.3.6         rstudioapi_0.15.0  R6_2.5.1           fs_1.6.3           systemfonts_1.0.5
 ```
 
